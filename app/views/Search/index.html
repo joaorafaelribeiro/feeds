@@ -1,0 +1,25 @@
+#{extends 'main.html'/}
+<div ng-controller="feedController as ct" ng-init="ct.initSearch()">
+
+<div class="row">
+	<div class="row">
+		<div class="col-md-3 col-xs-12"
+			ng-repeat="feed in ct.feeds | limitTo:4">#{feed/}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-xs-12"
+			ng-repeat="feed in ct.feeds | limitTo:4:4">#{feed/}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-xs-12"
+			ng-repeat="feed in ct.feeds | limitTo:4:8">#{feed/}</div>
+	</div>
+	<div class="row">
+		<uib-pagination 
+			total-items="ct.total" ng-model="ct.page" max-size="15"
+			ng-change="ct.search(ct.page)" 
+			items-per-page="12" force-ellipses="true">
+		</uib-pagination>
+	</div>
+</div>
+</div>

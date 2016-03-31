@@ -1,0 +1,34 @@
+#{extends 'main.html'/}
+	#{set title:'Profile'/}
+<div class="col-md-3 col-xs-12">
+	<a href="http://www.gravatar.com/%{out.print(util.CriptUtil.md5Hex(user.email))}%" target="_blank">
+	<img src="http://www.gravatar.com/avatar/%{out.print(util.CriptUtil.md5Hex(user.email))}%?s=250&d=mm" class=img-thumbnail>
+	</a>
+</div>
+<div class="col-md-9 col-xs-12">
+<div class="row">
+<form action="/profile/save" method="post" class="well">
+	<div class="form-group">
+		<label>Nome</label>
+		<input type="text" class="form-control" name="user.name" value="${user.name}" maxlength="255"/>
+	</div>
+	<div class="form-group">
+		<label>E-mail</label>
+		<input type="email" class="form-control" name="user.email" value="${user.email}" maxlength="255"/>
+	</div>
+	<p>
+<h5><b>Observações:</b></h5>
+<ul>
+	<li>Para gerar o seu avatar utilizamos o serviço do site <a href="http://www.gravatar.com">www.gravatar.com</a></li>
+	<li>O seu apelido e avatar serão utilizados nos seus comentários.</li>
+	<li>Seu e-mail será utilizado para a recuperação de senha.</li>
+</ul>
+</p>
+<button type="submit" class="btn btn-primary pull-right">Save</button>
+</form>
+</div>
+<div class="row">
+
+
+</div>
+</div>

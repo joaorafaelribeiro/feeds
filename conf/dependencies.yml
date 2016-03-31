@@ -1,0 +1,9 @@
+# Application dependencies
+
+require:
+    - play
+    - play -> secure
+    - org.jsoup -> jsoup 1.8.3
+    - jdom -> jdom 1.0
+    - rome -> rome 1.0
+    - commons-codec -> commons-codec 1.10

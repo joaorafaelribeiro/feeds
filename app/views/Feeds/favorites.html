@@ -1,0 +1,28 @@
+#{extends 'main.html' /}
+<div ng-controller="feedController as ct">
+	<div class="col-md-12">
+			<div class="pull-right">#{pagination url:'/news', items:total, itemsPerPage:12 /}</div>
+	</div>
+		%{
+			int index = 0;
+			for(int i = 1; i <= 3; i++) {
+				out.print("<div class='row'>");
+				for(int j=0; j<4; j++) {
+					if(index>=feeds.size) continue
+					models.Feed feed = feeds.get(index++)
+					
+		}%
+		<div class="col-md-3 col-xs-12">
+		<a href="#" data-toggle="modal" data-target="#myModal" ng-click="ct.getFeed(${feed.id})"> 
+			<img alt="${feed.rss.title}" src="${feed.img}" width="250" height="150" class="img-thumbnail"
+			style="height: 145px" />
+		</a> <small class="text-muted">${feed.rss.title} -${feed.date} </small>
+		<h5 class="text-center" style="height: 37px">${feed.title}</h5>
+		</div>
+		%{
+				}
+				out.print("</div>");
+			}
+		}%
+#{feedShow/}
+</div>

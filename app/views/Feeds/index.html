@@ -1,0 +1,46 @@
+#{extends 'main.html' /}
+<div ng-controller="feedController as ct" ng-init="ct.init()">
+<div class="col-md-9">
+#{if session.username}
+<div class="row" style="margin-bottom: 8px ">
+	<div class="pull-left">
+	<uib-pagination style="margin-top:0px; margin-bottom: 10px"
+			total-items="ct.total" ng-model="ct.page" max-size="5"
+			ng-change="ct.getFeeds(ct.page)" 
+			items-per-page="12" force-ellipses="true">
+		</uib-pagination>
+	</div>
+	<form ng-submit="ct.getFeeds(1)" class="form-inline pull-right">
+		<input type="hidden" value="${search}" id="word">
+		<div class="input-group">
+		<input type="text" name="search" placeholder="Search" class="form-control" ng-model="ct.word" maxlength="255">
+		<span class="input-group-btn">
+		<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+		</span>
+		</div>
+	</form>
+</div>
+#{/if}
+<div class="row">
+	<div class="row">
+		<div class="col-md-4 col-xs-12"
+			ng-repeat="feed in ct.feeds | limitTo:3">#{feed/}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 col-xs-12"
+			ng-repeat="feed in ct.feeds | limitTo:3:4">#{feed/}</div>
+	</div>
+<!-- 	<div class="row"> -->
+<!-- 		<div class="col-md-4 col-xs-12" -->
+<!-- 			ng-repeat="feed in ct.feeds | limitTo:3:8">#{feed/}</div> -->
+<!-- 	</div> -->
+</div>
+</div>
+<div class="col-md-3">
+	<div class="list-group" uib-collapse="false">
+		<a href="#" class="list-group-item disabled">Sources <span class="badge">12032</span></a>
+		<a href="#" class="list-group-item active">Todos</a>
+		<a ng-repeat="source in ct.sources" class="list-group-item">{{source.title}}</a>
+	</div>
+</div>
+</div>

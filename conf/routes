@@ -1,0 +1,50 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                       Application.index
+
+GET     /config/index.html                      Geral.config
+POST    /config                                 Geral.save
+
+GET		/categories/index.html					Categories.index
+GET		/categories								Categories.list
+GET		/category/edit/{id}						Categories.edit
+GET		/category/delete/{id}					Categories.delete
+POST	/category								Categories.save
+
+GET     /search/index	                        Search.index
+GET     /search			                        Search.search
+
+
+GET		/favorites								Feeds.favorites
+POST	/favorite/{id}							Feeds.setFavorite
+GET		/news									Feeds.index
+GET     /feeds                                  Feeds.list
+GET     /new/{id}                              Feeds.show
+
+GET     /sources/index.html                     Rsses.index
+GET     /sources                                Rsses.sources
+GET		/rss/{id}								Rsses.edit
+POST	/rsses									Rsses.save
+POST	/rss									Rsses.update
+GET		/delete/{id}							Rsses.delete
+
+GET		/users/index.html						Users.index
+GET		/user/new								Users.form
+GET		/user/edit/{id}							Users.edit
+POST	/user/update							Users.update
+POST	/user									Users.save
+
+POST	/comment								Comments.save
+
+GET		/profile								Profiles.index
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+#Add routes to module secure
+*       /                                       module:secure

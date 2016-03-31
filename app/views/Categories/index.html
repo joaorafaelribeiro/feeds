@@ -1,0 +1,33 @@
+#{extends 'main.html' /}
+	#{set title:'Categorias'/}
+		#{secure.check 'ADMINISTRADOR'}
+		<form class="form-inline" method="post" action="/category" style="margin-bottom: 20px">
+			#{authenticityToken /} 
+			<input placeholder="Name" class="form-control" maxlength="255" size="30" name="category.name" required="required">
+		<button type="submit" class="btn btn-primary">Adicionar</button>
+	</form>
+	#{/secure.check}
+	<div ng-controller="CategoryController as ct" ng-init="ct.init()">
+		<table class="table table-hover table-condensed	table-striped">
+			<tr>
+				<th width="85%">Name</th>
+<!-- 				<th width="10%">Color</th> -->
+				<th width="5%" colspan="2">Ação</th>
+			</tr>
+			<tr ng-repeat="category in ct.categories">
+				<td ng-bind="category.name"></td>
+ 				<th> 
+				<a href="/category/edit/{{category.id}}"><span class="glyphicon glyphicon-edit"></span></a>
+				</th>
+				<th>
+				<a href="/category/delete/{{category.id}}" class="text-danger" onclick="return confirm('Tem Certeza?');"><span class="glyphicon glyphicon-remove"></span></a>
+				</th>
+				
+			</tr>
+		</table>
+		<uib-pagination 
+			total-items="ct.total" ng-model="ct.page" max-size="15"
+			ng-change="ct.getCategories(ct.page)" 
+			items-per-page="10" force-ellipses="true">
+		</uib-pagination>
+	</div>

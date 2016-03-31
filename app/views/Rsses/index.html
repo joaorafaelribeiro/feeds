@@ -1,0 +1,42 @@
+#{extends 'main.html' /}
+<div ng-controller="SourcesController as ct" ng-init="ct.init()">
+	#{set title:'Fonte'/}
+	#{secure.check 'ADMINISTRADOR'}
+	<form class="form-inline" method="post" action="/rsses"
+		style="margin-bottom: 20px">
+		#{authenticityToken /} <input placeholder="RSS" class="form-control"
+			maxlength="255" size="30" name="rss" required="required">
+		<button type="submit" class="btn btn-primary">Registrar</button>
+	</form>
+	#{/secure.check}
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-hover table-condensed	table-striped">
+				<tr>
+					<th width="5%">#</th>
+					<th width="40%">Título</th>
+					<th width="30%" align="center">Categoria</th> #{secure.check
+					'ADMINISTRADOR'}
+					<th width="15%" align="center">Atualizado</th>
+					<th colspan="2" width="5%">Ação</th> #{/secure.check}
+				</tr>
+				<tr ng-repeat="rss in ct.sources">
+					<th ng-bind="$index+1"></th>
+					<td><a href="{{rss.site}}" target="_blank" ng-bind="rss.title"></a></td>
+					<td ng-bind="rss.category.name"></td>
+					<td ng-bind="rss.date"></td>
+					<td><a href="/rss/{{rss.id}}"><span
+							class="glyphicon glyphicon-edit"></span></a></td>
+					<td><a href="/delete/{{rss.id}}" class="text-danger"
+						onclick="return confirm('Tem Certeza?');"><span
+							class="glyphicon glyphicon-remove"></span></a></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<uib-pagination 
+			total-items="ct.total" ng-model="ct.page" max-size="15"
+			ng-change="ct.getSources(ct.page)" 
+			items-per-page="10" force-ellipses="true">
+		</uib-pagination>
+</div>

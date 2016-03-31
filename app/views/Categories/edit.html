@@ -1,0 +1,19 @@
+#{extends 'main.html'/}
+<ol class="breadcrumb">
+		<li><a href="/">Home</a></li>
+		<li><a href="/categories">Category</a></li>
+		<li class="active">Edit Category</li>
+</ol>
+<div class="page-header">
+  <h2>Edit Category</h2>
+</div>
+<form method="post" action="/category" class="well">
+	#{authenticityToken /}
+	<input type="hidden" name="category.id" value="${category.id}">
+	<div class="form-group">
+		<label>Name</label> <input type="text" name="category.name" tabindex="1"
+			maxlength="255" class="form-control" value="${category.name}" required="required">
+	</div>
+	<a href="/categories" class="btn btn-default" tabindex="4">Voltar</a>
+	<button type="submit" class="btn btn-primary" tabindex="5">Save</button>
+</form>

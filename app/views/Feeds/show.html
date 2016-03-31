@@ -1,0 +1,75 @@
+#{extends 'main.html'/}
+<div class="col-md-12" ng-controll="FeedController as ct">
+	<div class="col-md-12">
+		<div class="row">
+			<div class="page-header">
+				<h4>
+					<b>#{verbatim}${feed.title}#{/verbatim}</b>
+				</h4>
+			</div>
+			<div class="col-md-6 pull-left" style="margin-bottom: 8px">
+				<a href="${feed.link}" target="_blank" tabindex="1"> <img src="${feed.img}"
+					alt="${feed.rss.title}" class="img-responsive" />
+				</a> <small class="text-muted"> <b>Fonte:</b> ${feed.rss.title}
+					- ${feed.date.format("dd/MM/yyyy (hh:mm)")}
+				</small>
+			</div>
+			#{verbatim}${feed.description}#{/verbatim}
+		</div>
+		<div class="row">
+			<div class="page-header">
+				<h4><b>Relacionados:</b></h4>
+			</div>
+			#{list items:feeds, as:'feed'}
+			<div class="col-md-3">
+				<a href="/new/${feed.id}" class="thumbnail"> <img
+					src="${feed.img}" alt="${feed.rss.title}" class="img-responsive" />
+				</a>
+				<h5>${feed.title}</h5>
+			</div>
+			#{/list}
+		</div>
+		<div class="row">
+			<div class="page-header">
+				<h4>
+					<b>Comentários:</b>
+				</h4>
+			</div>
+			#{if session.username}
+			<form action="/comment" method="post" class="well col-md-12">
+				#{authenticityToken /} <input type="hidden" name="comment.feed.id"
+					value="${feed.id}">
+				<div class="form-group">
+					<textarea class="form-control" name="comment.comment" rows="4" cols="5" style="resize: none;"
+						required="required" maxlength="255" placeholder="O que você achou desse post?"></textarea>
+				</div>
+				<button type="submit" class="btn btn-default btn-sm pull-right">Comment</button>
+				<a href="#" class="btn btn-default btn-sm" ng-click="ct.setFavorite(${feed.id})"><span
+					class="glyphicon glyphicon-star-empty"></span> Favorito</a> <a href="#"
+					class="btn btn-default btn-sm"><span
+					class="glyphicon glyphicon-share-alt"></span> Compartilha</a>
+			</form>
+			#{/if}
+			<table class="table table-hover table-striped">
+			#{list items:feed.comments, as:'comment'}
+			<tr>
+				<td width="45px">
+				<img src="http://www.gravatar.com/avatar/%{out.print(util.CriptUtil.md5Hex(comment.user.email))}%?s=40&d=mm" class="img-circle" alt="${comment.user.name}">
+				
+				</td>
+				<td width="80%">
+					<small><b> ${comment.user.name}:</b></small><br/>	
+					
+					${comment.comment} 
+				</td>
+				<td width="15%" align="center" valign="middle">
+					<small class="text-muted">(${comment.create.format('dd/MM/yyyy')})</small>
+				</td>
+			</tr>
+			#{/list}
+		</table>
+		</div>
+	</div>
+</div>
+
+</div>

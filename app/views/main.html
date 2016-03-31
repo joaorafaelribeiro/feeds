@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Feeds</title>
+        <meta charset="${_response_encoding}">
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/bootstrap.min.css'}">
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/bootstrap-theme.min.css'}">
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
+        <link rel="shortcut icon" href="@{'/public/images/favicon.png'}" type="image/x-icon">
+    </head>
+    <body ng-app="app">
+	<header>
+		<nav class="navbar navbar-inverse navbar-static-top" ng-controller="menuController as menu">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/"> Feeds </a>
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+						aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					
+					<ul class="nav navbar-nav">
+						<li><a href="/news">Notícias </a></li>
+						#{if session.username }
+						<li><a href="/favorites">Favoritos</a></li>
+						#{/if}
+						<li><a href="/sources/index.html">Fontes</a></li>
+						#{secure.check 'ADMINISTRADOR'}
+						<li><a href="/categories/index.html">Cateogrias</a></li>
+						<li><a href="/users/index.html">Usuários</a></li>
+						<li><a href="/config/index.html">Geral</a></li>
+						#{/secure.check}
+						
+					</ul>
+					
+					<ul class="nav navbar-nav navbar-right">
+						#{if session.username }
+						<li><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false">   <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="/profile">${session.username}</a></li>
+								<li><a href="/logout">logout</a></li>
+							</ul>
+						</li>
+						#{/if}
+						#{else}
+						<li><a href="/login">Login</a></li>
+						#{/else}
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<div class="container">
+		#{ifErrors}
+		<p>Error(s) found!</p>
+		#{/ifErrors} #{if flash.success}
+		<div class="alert alert-success alert-dismissible">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			&{flash.success}
+		</div>
+		#{/if} #{if flash.error || error}
+			<div class="alert alert-danger alert-dismissible">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				&{flash.error}
+			</div>
+		#{/if} #{errors}
+		<li>${error}</li> #{/errors} 
+		#{if title}
+			<h2>#{get 'title'/}</h2>
+			<hr/>
+		#{/if}
+		#{doLayout /}
+	</div>
+	
+	<script src="@{'/public/javascripts/jquery-1.12.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+	<script src="@{'/public/javascripts/bootstrap.min.js'}" 	type="text/javascript" charset="${_response_encoding}"></script>
+	<script src="@{'/public/javascripts/angular.min.js'}"		type="text/javascript" charset="${_response_encoding}"></script>
+	<script src="@{'/public/javascripts/angular-sanitize.min.js'}" 			type="text/javascript" charset="${_response_encoding}"></script>
+	<script src="@{'/public/javascripts/ui-bootstrap-tpls-1.2.5.min.js'}"	type="text/javascript" charset="${_response_encoding}"></script>
+	<script src="@{'/public/javascripts/app.js'}"				type="text/javascript" charset="${_response_encoding}"></script>
+	<script src="@{'/public/javascripts/service/feed.service.js'}"			type="text/javascript" charset="${_response_encoding}"></script>
+	<script src="@{'/public/javascripts/controller/menuController.js'}"		type="text/javascript" charset="${_response_encoding}"></script>
+	<script src="@{'/public/javascripts/controller/feed.controller.js'}"	type="text/javascript" charset="${_response_encoding}"></script>
+	<script src="@{'/public/javascripts/controller/category.controller.js'}"	type="text/javascript" charset="${_response_encoding}"></script>
+	<script src="@{'/public/javascripts/controller/source.controller.js'}"	type="text/javascript" charset="${_response_encoding}"></script>
+	
+	
+	</body>
+</html>

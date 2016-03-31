@@ -1,0 +1,24 @@
+#{extends 'main.html' /}
+	#{set title:'Users'/}
+	<table class="table table-hover table-condensed	table-striped">
+		<tr>
+			<th width="50%">Name</th>
+			<th width="25%">Profile</th>
+			<th width="20%">Create</th>
+			<th width="5%" colspan="2">Ação</th>
+		</tr>
+		#{list items:users, as:'user'}
+		<tr>
+			<td>${user.name}</td>
+			<td>${user.profile}</td>
+			<td>${user.create.format("dd/MM/yyyy - (hh:mm)")}</td>
+			<td>
+			<a href="/user/edit/${user.id}"><span class="glyphicon glyphicon-edit"></span></a>
+		</td>
+		<td>
+			<a href="/user/delete/${user.id}" class="text-danger" onclick="return confirm('Tem Certeza?');"><span class="glyphicon glyphicon-remove"></span></a>
+		</td>
+		</tr>
+		#{/list}
+	</table>
+<!-- 	<a href="/user/new" class="btn btn-primary">Adicionar</a> -->
