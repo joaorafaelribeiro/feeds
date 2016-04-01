@@ -17,8 +17,9 @@
 			<input type="checkbox" name="remember" id="remember" value="true" ${flash.remember ? 'checked="true"' : ''} />
 			<label for="remember">&{'secure.remember'}</label>
 		</p>
-		<p id="signin-field">
+		<p id="signin-field" class="pull-right">
 			<input type="submit" class="btn btn-primary" id="signin" value="&{'secure.signin'}" />
+			<a href="/user/register.html" class="btn btn-default" id="signin" >Register</a>
 		</p>
 	#{/form}
 </div>
