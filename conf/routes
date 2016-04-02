@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET     /                                       Application.index
+GET     /                                       Application.index(format:'html')
 
 GET     /config/index.html                      Geral.config
 POST    /config                                 Geral.save
@@ -14,13 +14,9 @@ GET		/category/edit/{id}						Categories.edit
 GET		/category/delete/{id}					Categories.delete
 POST	/category								Categories.save
 
-GET     /search/index	                        Search.index
-GET     /search			                        Search.search
-
-
 GET		/favorites								Feeds.favorites
 POST	/favorite/{id}							Feeds.setFavorite
-GET		/news									Feeds.index
+GET		/news									Feeds.index(format:'html')
 GET     /feeds                                  Feeds.list
 GET     /feed/{id}                              Feeds.show
 

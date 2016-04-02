@@ -8,6 +8,7 @@
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/bootstrap.min.css'}">
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/bootstrap-theme.min.css'}">
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/hotkeys.min.css'}">
         <link rel="shortcut icon" href="@{'/public/images/favicon.png'}" type="image/x-icon">
     </head>
     <body ng-app="app">
@@ -27,15 +28,15 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					
 					<ul class="nav navbar-nav">
-						<li><a href="/news">Notícias </a></li>
+						<li class="%{if(request.path == '/news') out.print('active')}%"><a href="/news">Notícias </a></li>
 						#{if session.username }
-						<li><a href="/favorites">Favoritos</a></li>
+						<li class="%{if(request.path == '/favorites') out.print('active')}%"><a href="/favorites">Favoritos</a></li>
 						#{/if}
-						<li><a href="/sources/index.html">Fontes</a></li>
+						<li class="%{if(request.path == '/sources/index.html') out.print('active')}%"><a href="/sources/index.html">Fontes</a></li>
 						#{secure.check 'ADMINISTRADOR'}
-						<li><a href="/categories/index.html">Cateogrias</a></li>
-						<li><a href="/users/index.html">Usuários</a></li>
-						<li><a href="/config/index.html">Geral</a></li>
+						<li class="%{if(request.path == '/categories/index.html') out.print('active')}%"><a href="/categories/index.html">Cateogrias</a></li>
+						<li class="%{if(request.path == '/users/index.html') out.print('active')}%"><a href="/users/index.html">Usuários</a></li>
+						<li class="%{if(request.path == '/config/index.html') out.print('active')}%"><a href="/config/index.html">Geral</a></li>
 						#{/secure.check}
 						
 					</ul>
@@ -86,6 +87,7 @@
 	<script src="@{'/public/javascripts/angular.min.js'}"		type="text/javascript" charset="${_response_encoding}"></script>
 	<script src="@{'/public/javascripts/angular-sanitize.min.js'}" 			type="text/javascript" charset="${_response_encoding}"></script>
 	<script src="@{'/public/javascripts/ui-bootstrap-tpls-1.2.5.min.js'}"	type="text/javascript" charset="${_response_encoding}"></script>
+	<script src="@{'/public/javascripts/hotkeys.min.js'}"				type="text/javascript" charset="${_response_encoding}"></script>
 	<script src="@{'/public/javascripts/app.js'}"				type="text/javascript" charset="${_response_encoding}"></script>
 	<script src="@{'/public/javascripts/service/feed.service.js'}"			type="text/javascript" charset="${_response_encoding}"></script>
 	<script src="@{'/public/javascripts/controller/menuController.js'}"		type="text/javascript" charset="${_response_encoding}"></script>

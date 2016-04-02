@@ -21,6 +21,7 @@ public class FeedSerializer implements JsonSerializer<Feed>{
 		json.add("title", new JsonPrimitive(feed.getTitle()));
 		json.add("link", new JsonPrimitive(feed.getLink()));
 		json.add("favorite", new JsonPrimitive(feed.getFavorite()));
+		json.add("active", new JsonPrimitive(feed.getActive()));
 		if(feed.getImg() != null)
 			json.add("img", new JsonPrimitive(feed.getImg()));
 		else

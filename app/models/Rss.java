@@ -33,7 +33,14 @@ public class Rss extends Model {
 	@JoinColumn(name="category_id")
 	private Category category;
 	private String site;
+	private String icon;
 	
+	public String getIcon() {
+		return icon;
+	}
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
 	public String getSite() {
 		return site;
 	}

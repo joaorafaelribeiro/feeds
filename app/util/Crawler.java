@@ -48,4 +48,14 @@ public class Crawler {
 		throw new CrawlerException("Não foi possível gerar uma imagem");
 	}
 	
+	public String getIcon() {
+		for(Element link : document.getElementsByTag("link")) {
+			for(Attribute attr : link.attributes()) {
+				if(attr.getValue().indexOf("shortcut icon") >= 0)
+					return link.attr("href");
+			}
+		}
+		return null;
+	}
+	
 }

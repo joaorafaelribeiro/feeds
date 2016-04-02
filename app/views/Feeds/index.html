@@ -8,7 +8,7 @@
         </div>
         <div class="modal-body">
 			<div class="row" style="padding: 15px">
-			<a href="{{feed.link}}" target="_blank">
+			<a href="{{feed.link}}" target="_blank" ng-click="modal.close()">
 			<img ng-src="{{feed.img}}" class="img-thumbnail pull-left" style="margin-right:15px"/>
 			</a>
             <span ng-bind-html="feed.description"></span>
@@ -28,11 +28,7 @@
 #{if session.username}
 <div class="row" style="margin-bottom: 8px ">
 	<div class="pull-left">
-	<uib-pagination style="margin-top:0px; margin-bottom: 10px"
-			total-items="ct.total" ng-model="ct.page" max-size="5"
-			ng-change="ct.getFeeds(ct.page)" 
-			items-per-page="12" force-ellipses="true">
-		</uib-pagination>
+	<p class="text-muted">Total de {{ct.total | number}} registro(s), exibindo página {{ct.page}}.</p>
 	</div>
 	<form ng-submit="ct.getFeeds(1)" class="form-inline pull-right">
 		<input type="hidden" value="${search}" id="word">
@@ -59,19 +55,23 @@
 			ng-repeat="feed in ct.feeds | limitTo:3:6">#{feed/}</div>
 	</div>
 	<div class="row">
-		<uib-pagination style="margin-top:0px; margin-bottom: 10px"
+		<uib-pagination 
 			total-items="ct.total" ng-model="ct.page" max-size="15"
 			ng-change="ct.getFeeds(ct.page)" 
-			items-per-page="12" force-ellipses="true">
+			items-per-page="9" force-ellipses="true">
 		</uib-pagination>
 	</div>
 </div>
 </div>
 <div class="col-md-3">
 	<div class="list-group" uib-collapse="false">
-		<a href="#" class="list-group-item disabled">Sources <span class="badge">12032</span></a>
-		<a href="#" class="list-group-item active">Todos</a>
-		<a ng-repeat="source in ct.sources" class="list-group-item">{{source.title}}</a>
+		<a href="#" class="list-group-item disabled">Sources</a>
+		<a href="#" ng-class="{'list-group-item active': ct.source.id == null, 'list-group-item' : ct.source.id != null}"
+		ng-click="ct.setSource(null)">Todos</a>
+		<a href="#" ng-repeat="source in ct.sources" 
+		ng-class="{'list-group-item active': ct.source.id == source.id, 'list-group-item' : ct.source.id != source.id}"
+		ng-click="ct.setSource(source)"
+		class="list-group-item" >{{source.title}} <span class="badge" ng-if="source.qtd > 0" ng-bind="source.qtd"></span></a>
 	</div>
 </div>
 </div>

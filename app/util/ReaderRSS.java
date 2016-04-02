@@ -37,6 +37,9 @@ public class ReaderRSS {
 		Rss rss = new Rss();
 		rss.setTitle(feed.getTitle());
 		rss.setSite(feed.getLink());
+		if(rss.getSite() != null) {
+			setFavicon(rss);
+		}
 		for(SyndEntry enty : (List<SyndEntry>) feed.getEntries()) {
 			Feed f = new Feed();
 			f.setTitle(enty.getTitle());
@@ -45,18 +48,31 @@ public class ReaderRSS {
 			f.setDescription(enty.getDescription().getValue().trim());
 			f.setLink(enty.getLink());
 			f.setRss(rss);
-			try {
-				Crawler crawler = new Crawler(f.getLink());
-				f.setImg(crawler.getImage());
-			} catch (CrawlerException e) {
-				f.setImg("/public/images/no_image.png");
-			}
+			setImg(f);
 			rss.getFeeds().add(f);
 		}
 		
 		return rss;
 	}
 	
+	private void setImg(Feed f) {
+		try {
+			Crawler crawler = new Crawler(f.getLink());
+			f.setImg(crawler.getImage());
+		} catch (CrawlerException e) {
+			f.setImg("/public/images/no_image.png");
+		}
+	}
+
+	private void setFavicon(Rss rss) {
+		try {
+			Crawler crawler = new Crawler(rss.getSite());
+			rss.setIcon(crawler.getIcon());
+		} catch (CrawlerException e) {
+			rss.setIcon("/public/images/rss.png");
+		}
+	}
+
 	private Date getDate(SyndEntry enty) {
 		if(enty.getPublishedDate() != null) {
 			return enty.getPublishedDate();

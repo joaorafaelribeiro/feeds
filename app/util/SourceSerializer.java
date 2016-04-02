@@ -19,6 +19,7 @@ public class SourceSerializer implements JsonSerializer<Rss> {
 		json.add("title", new JsonPrimitive(rss.getTitle()));
 		json.add("id", new JsonPrimitive(rss.id));
 		json.add("date", new JsonPrimitive(rss.getDate().toString()));
+		json.add("link", new JsonPrimitive(rss.getLink()));
 		if(rss.getCategory() != null) {
 			JsonObject cat = new JsonObject();
 			cat.add("id", new JsonPrimitive(rss.getCategory().getId()));
@@ -27,6 +28,7 @@ public class SourceSerializer implements JsonSerializer<Rss> {
 		}else {
 			json.add("category", null);
 		}
+		
 		return json;
 	}
 

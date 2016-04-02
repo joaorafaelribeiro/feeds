@@ -1,7 +1,6 @@
-<a href="" tabindex="{{index}}" class="thumbnail" style="margin-bottom: 5px" ng-click="ct.show(feed.id)"> 
-	<img
-	alt="{{feed.rss.title}}" ng-src="{{feed.img}}" width="250" height="150"
+<a href="" tabindex="{{feed.index}}" class="thumbnail" style="margin-bottom: 5px" ng-click="ct.show(feed.id)"> 
+	<img alt="{{feed.rss.title}}" ng-src="{{feed.img}}" width="250" height="150"
 	 style="height: 145px" />
 </a>
 <small class="text-muted" >{{feed.rss.title}} - {{feed.date}} </small>
-<h5 class="text-center" style="height: 37px" ng-bind="feed.title"></h5>
+<h5 style="min-height: 37px" ng-bind="feed.title"></h5>

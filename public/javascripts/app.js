@@ -1,6 +1,7 @@
+
 /**
  * Define o modulo da aplicação  
  */
 
-angular.module('app',['ngSanitize','ui.bootstrap']);		
+angular.module('app',['ngSanitize','ui.bootstrap','cfp.hotkeys']);		
 		

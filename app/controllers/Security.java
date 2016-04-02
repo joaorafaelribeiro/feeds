@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 import models.User;
 import play.Logger;
+import play.cache.Cache;
 import util.CriptUtil;
 
 public class Security extends Secure.Security{
@@ -13,7 +14,12 @@ public class Security extends Secure.Security{
 		try {
 			String aux = CriptUtil.criptografarSenha(password);
 	        User user = User.find("name", username).first();
-	        return user != null && user.getPassword().equals(aux);
+	        if( user != null && user.getPassword().equals(aux)){
+	        	Cache.set("profile", user.getProfile().toString());
+	        	return true;
+	        } else
+	        	return false;
+	        	
 		} catch (Exception e) {
 			Logger.error("Fatal erro segurança "+e.getMessage());
 		}
@@ -22,9 +28,8 @@ public class Security extends Secure.Security{
     }
 	
 	static boolean check(String profile) {
-		if(connected() == null) return false;
-        User user = User.find("name", connected()).first();
-        return user.getProfile().toString().equals(profile);
+		if(connected() == null || Cache.get("profile") == null) return false;
+        return Cache.get("profile").equals(profile);
 	}
 	
 }
