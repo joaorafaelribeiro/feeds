@@ -48,3 +48,6 @@ GET     /favicon.ico                            404
 GET     /public/                                staticDir:public
 #Add routes to module secure
 *       /                                       module:secure
+
+GET     /user/register                          Application.register
+POST    /register                               Application.save

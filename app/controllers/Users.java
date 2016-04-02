@@ -57,4 +57,5 @@ public class Users extends Controller{
 		flash.success("Usuário deletado com sucesso");
 		index();
 	}
+	
 }
