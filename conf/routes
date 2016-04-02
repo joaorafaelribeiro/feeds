@@ -22,7 +22,7 @@ GET		/favorites								Feeds.favorites
 POST	/favorite/{id}							Feeds.setFavorite
 GET		/news									Feeds.index
 GET     /feeds                                  Feeds.list
-GET     /new/{id}                              Feeds.show
+GET     /feed/{id}                              Feeds.show
 
 GET     /sources/index.html                     Rsses.index
 GET     /sources                                Rsses.sources

@@ -2,7 +2,7 @@
  * 
  */
 
-angular.module('app').controller('feedController',['Feed',function(Feed) {
+angular.module('app').controller('feedController',['Feed','$uibModal','$scope',function(Feed,$uibModal,$scope) {
 	
 	me = this;
 	me.page = 1;
@@ -36,7 +36,24 @@ angular.module('app').controller('feedController',['Feed',function(Feed) {
 			});
 			
 		}
-	}
+	};
+	
+	me.show = function(id) {
+			Feed.getFeed(id).then(function(response) {
+				
+				var modalInstance = $uibModal.open({
+				      animation: true,
+				      templateUrl: 'myModalContent.html',
+				      bindToController:true,
+				      controller: 'FeedModalController',
+				      controllerAs: 'modal',
+				      resolve: {feed: response.data}
+				    });
+			});
+			
+	};
+	
+	
 	
 	me.getSources = function() {
 		Feed.getSources().then(function(response) {
@@ -51,3 +68,13 @@ angular.module('app').controller('feedController',['Feed',function(Feed) {
 	}
 	
 }]);
+
+
+angular.module('app').controller('FeedModalController', function ($scope, $uibModalInstance, feed) {
+		modal = this;  
+		$scope.feed = feed;
+		
+		modal.close = function() {
+			$uibModalInstance.close();
+		}
+	});
