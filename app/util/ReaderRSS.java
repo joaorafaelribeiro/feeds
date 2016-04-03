@@ -68,6 +68,8 @@ public class ReaderRSS {
 		try {
 			Crawler crawler = new Crawler(rss.getSite());
 			rss.setIcon(crawler.getIcon());
+			if(rss.getIcon().indexOf('/') == 0)
+				rss.setIcon(rss.getSite()+rss.getIcon());
 		} catch (CrawlerException e) {
 			rss.setIcon("/public/images/rss.png");
 		}

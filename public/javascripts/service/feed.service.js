@@ -20,6 +20,10 @@ angular.module('app').service('Feed',['$http',function($http) {
 		else
 			return $http.get('/sources');
 	};
+	
+	me.getRsses = function() {
+		return $http.get('/rsses');
+	}
 
 	me.getCategories = function(page) {
 		if(!page) page = 1;

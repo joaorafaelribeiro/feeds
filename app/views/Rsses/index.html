@@ -13,7 +13,6 @@
 		<div class="col-md-12">
 			<table class="table table-hover table-condensed	table-striped">
 				<tr>
-					<th width="5%">#</th>
 					<th width="40%">Título</th>
 					<th width="30%" align="center">Categoria</th> #{secure.check
 					'ADMINISTRADOR'}
@@ -21,8 +20,10 @@
 					<th colspan="2" width="5%">Ação</th> #{/secure.check}
 				</tr>
 				<tr ng-repeat="rss in ct.sources">
-					<th ng-bind="$index+1"></th>
-					<td><a href="{{rss.site}}" target="_blank" ng-bind="rss.title"></a></td>
+					<td>
+						<img src="{{rss.icon}}" width="20" height="20" class="img-rounded"/>
+						<a href="{{rss.site}}" target="_blank" ng-bind="rss.title"></a>
+					</td>
 					<td ng-bind="rss.category.name"></td>
 					<td ng-bind="rss.date"></td>
 					<td><a href="/rss/{{rss.id}}"><span

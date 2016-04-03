@@ -24,6 +24,7 @@ GET     /sources/index.html                     Rsses.index
 GET     /sources                                Rsses.sources
 GET		/rss/{id}								Rsses.edit
 POST	/rsses									Rsses.save
+GET		/rsses									Rsses.list
 POST	/rss									Rsses.update
 GET		/delete/{id}							Rsses.delete
 

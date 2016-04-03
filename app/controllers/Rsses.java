@@ -8,9 +8,11 @@ import models.Resume;
 import models.Rss;
 import play.mvc.Controller;
 import play.mvc.Scope.Flash;
+import play.mvc.With;
 import util.ReaderRSS;
 import util.SourceSerializer;
 import util.exceptions.ReaderRSSException;
+
 
 public class Rsses extends Controller{
 	
@@ -30,6 +32,12 @@ public class Rsses extends Controller{
 		}
 		
 	}
+	
+	public static void list() {
+		List<Rss> rsses = Rss.findAll();
+		renderJSON(rsses,new SourceSerializer());
+	}
+	
 	
 	public static void save(String rss) {
 		checkAuthenticity();
