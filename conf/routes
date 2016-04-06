@@ -14,8 +14,10 @@ GET		/category/edit/{id}						Categories.edit
 GET		/category/delete/{id}					Categories.delete
 POST	/category								Categories.save
 
-GET		/favorites								Feeds.favorites
-POST	/favorite/{id}							Feeds.setFavorite
+GET		/favorites								Favorites.index
+GET		/favorites/list							Favorites.list
+POST	/favorite/{id}							Favorites.setFavorite
+
 GET		/news									Feeds.index(format:'html')
 GET     /feeds                                  Feeds.list
 GET     /feed/{id}                              Feeds.show

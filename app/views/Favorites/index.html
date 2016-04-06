@@ -1,0 +1,60 @@
+#{extends 'main.html' /}
+<div ng-controller="FavoriteController as ct" ng-init="ct.init()">
+
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+			<button type="button" class="close" ng-click="modal.close()"><span aria-hidden="true">&times;</span></button>
+            <h3 class="modal-title">{{feed.title}}</h3>
+        </div>
+        <div class="modal-body">
+			<div class="row" style="padding: 15px">
+			<a href="{{feed.link}}" target="_blank" ng-click="modal.close()">
+			<img ng-src="{{feed.img}}" class="img-thumbnail pull-left"  style="margin-right:15px; margin-bottom: 10px;"/>
+			</a>
+            <span ng-bind-html="feed.description"></span>
+			</div>
+        </div>
+        <div class="modal-footer">
+			<div class="btn-group pull-left">
+  	<button type="button" class="btn btn-default btn-xs" ng-click="modal.setFavorite()">
+			<span ng-class="{'glyphicon glyphicon-star-empty':!feed.favorite,'glyphicon glyphicon-star':feed.favorite}"></span>
+	</button>
+  <button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-share-alt"></span></button>
+</div>
+			<p><b>Fonte:</b> {{feed.rss.title}}</p>
+        </div>
+    </script>
+
+
+<div class="col-md-9">
+<div class="row ng-cloak" style="margin-bottom: 8px">
+	<div class="pull-left">
+	<p class="text-muted">Total de {{ct.total | number}} registro(s), exibindo página {{ct.page}}.</p>
+	</div>
+</div>
+<div class="row ng-cloak">
+	<div class="col-md-12 ng-cloak" ng-if="ct.total == 0">
+		<p class="text-muted text-center" style="margin: 40px">Nenhuma notícia foi encontrada</p>
+	</div>
+	<div class="row">
+		<div class="col-md-4 col-xs-12"
+			ng-repeat="feed in ct.feeds | limitTo:3">#{feed/}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 col-xs-12"
+			ng-repeat="feed in ct.feeds | limitTo:3:3">#{feed/}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 col-xs-12"
+			ng-repeat="feed in ct.feeds | limitTo:3:6">#{feed/}</div>
+	</div>
+	<div class="row">
+		<uib-pagination 
+			total-items="ct.total" ng-model="ct.page" max-size="15"
+			ng-change="ct.getFeeds(ct.page)" 
+			items-per-page="9" force-ellipses="true">
+		</uib-pagination>
+	</div>
+</div>
+</div>
+</div>

@@ -2,33 +2,25 @@
  * 
  */
 
-angular.module('app').controller('feedController',['Feed','$uibModal','$scope','hotkeys',function(Feed,$uibModal,$scope,hotkeys) {
+angular.module('app').controller('FavoriteController',['Feed','$uibModal','$scope','hotkeys',function(Feed,$uibModal,$scope,hotkeys) {
 	
 	me = this;
 	me.page = 1;
 	me.feeds = [];
-	me.sources = [];
 	me.feed = {favorite:false};
 	me.total = 0;
-	me.source = {id:null};
-	me.word = null;
-	
-	me.setFavorite = function(idFeed) {
-		me.feed.favorite = !me.feed.favorite;
-		Feed.setFavorite(idFeed);
-	}
-	
-	me.getFeeds = function(page) {
+		
+	me.getFavorites = function(page) {
 		if(page < 1) return;
 		me.page = page;
 		
-		Feed.getFeeds(page,me.word,me.source.id).then(function(response) {
+		Feed.getFeeds(me.page,null,null,true).then(function(response) {
 			me.feeds = response.data;
 			var $i = 1;
 			angular.forEach(me.feeds,function(feed) {
 				feed.index = $i++;
 			});
-			Feed.getTotalFeeds(me.word,me.source.id).then(function(response) {
+			Feed.getTotalFeeds(null,null,true).then(function(response) {
 				me.total = response.data;
 			});
 		});
@@ -51,23 +43,8 @@ angular.module('app').controller('feedController',['Feed','$uibModal','$scope','
 	};
 	
 	
-	me.setSource = function(source) {
-		me.word = null;
-		me.getFeeds(1);
-	}
-	
-	
-	me.getSources = function() {
-		Feed.getSources().then(function(response) {
-			me.sources = response.data;
-			me.sources.unshift({id:null,title:'Todos'})
-		});
-	}
-	
-	
 	me.init = function(){
-		me.getFeeds(1);
-		me.getSources();
+		me.getFavorites(1);
 	}
 	
 	hotkeys.add({
@@ -94,18 +71,3 @@ angular.module('app').controller('feedController',['Feed','$uibModal','$scope','
 	
 }]);
 
-
-angular.module('app').controller('FeedModalController', ['$scope','$uibModalInstance','feed','Feed',function ($scope, $uibModalInstance, feed,Feed) {
-		modal = this;  
-		$scope.feed = feed;
-		
-		modal.close = function() {
-			$uibModalInstance.close();
-		};
-		
-		modal.setFavorite = function() {
-			$scope.feed.favorite = true;
-			Feed.setFavorite($scope.feed.id);
-		};
-		
-	}]);

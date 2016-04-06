@@ -10,7 +10,7 @@ import play.jobs.Every;
 import play.jobs.Job;
 import util.exceptions.ReaderRSSException;
 
-@Every("30mn")
+@Every("10mn")
 public class UpdateJobRSS extends Job<Rss>{
 
 	public void doJob() {

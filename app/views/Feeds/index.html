@@ -9,14 +9,16 @@
         <div class="modal-body">
 			<div class="row" style="padding: 15px">
 			<a href="{{feed.link}}" target="_blank" ng-click="modal.close()">
-			<img ng-src="{{feed.img}}" class="img-thumbnail pull-left" style="margin-right:15px"/>
+			<img ng-src="{{feed.img}}" class="img-thumbnail pull-left"  style="margin-right:15px; margin-bottom: 10px;"/>
 			</a>
             <span ng-bind-html="feed.description"></span>
 			</div>
         </div>
         <div class="modal-footer">
 			<div class="btn-group pull-left">
-  	<button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-star-empty"></span></button>
+  	<button type="button" class="btn btn-default btn-xs" ng-click="modal.setFavorite()">
+			<span ng-class="{'glyphicon glyphicon-star-empty':!feed.favorite,'glyphicon glyphicon-star':feed.favorite}"></span>
+	</button>
   <button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-share-alt"></span></button>
 </div>
 			<p><b>Fonte:</b> {{feed.rss.title}}</p>
@@ -24,54 +26,61 @@
     </script>
 
 
-<div class="col-md-9">
+<div class="row">
 #{if session.username}
-<div class="row" style="margin-bottom: 8px ">
-	<div class="pull-left">
+<div class="row ng-cloak" style="margin-bottom: 25px">
+	<div class="pull-right">
 	<p class="text-muted">Total de {{ct.total | number}} registro(s), exibindo página {{ct.page}}.</p>
 	</div>
-	<form ng-submit="ct.getFeeds(1)" class="form-inline pull-right">
+	<form ng-submit="ct.getFeeds(1)" class="form-inline pull-left">
 		<input type="hidden" value="${search}" id="word">
 		<div class="input-group">
 		<input type="text" name="search" placeholder="Search" class="form-control" ng-model="ct.word" maxlength="255">
 		<span class="input-group-btn">
 		<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
 		</span>
+		<select name="rss" class="form-control" ng-model="ct.source" 
+				ng-change="ct.setSource(source)" style="width: 200px; margin-left: 10px"
+				ng-options="rss as rss.title for rss in ct.sources track by rss.id">
+		</select>
 		</div>
 	</form>
 </div>
 #{/if}
-<div class="row">
-	<div class="row">
-		<div class="col-md-4 col-xs-12"
-			ng-repeat="feed in ct.feeds | limitTo:3">#{feed/}</div>
+<div class="row ng-cloak">
+	<div class="col-md-12 ng-cloak" ng-if="ct.total == 0">
+		<p class="text-muted text-center" style="margin: 40px">Nenhuma notícia foi encontrada</p>
 	</div>
 	<div class="row">
-		<div class="col-md-4 col-xs-12"
-			ng-repeat="feed in ct.feeds | limitTo:3:3">#{feed/}</div>
+		<div class="col-md-3 col-xs-12"
+			ng-repeat="feed in ct.feeds | limitTo:4">#{feed/}</div>
 	</div>
 	<div class="row">
-		<div class="col-md-4 col-xs-12"
-			ng-repeat="feed in ct.feeds | limitTo:3:6">#{feed/}</div>
+		<div class="col-md-3 col-xs-12"
+			ng-repeat="feed in ct.feeds | limitTo:4:4">#{feed/}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 col-xs-12"
+			ng-repeat="feed in ct.feeds | limitTo:4:8">#{feed/}</div>
 	</div>
 	<div class="row">
 		<uib-pagination 
 			total-items="ct.total" ng-model="ct.page" max-size="15"
 			ng-change="ct.getFeeds(ct.page)" 
-			items-per-page="9" force-ellipses="true">
+			items-per-page="12" force-ellipses="true">
 		</uib-pagination>
 	</div>
 </div>
 </div>
-<div class="col-md-3">
-	<div class="list-group" uib-collapse="false">
-		<a href="#" class="list-group-item disabled">Sources</a>
-		<a href="#" ng-class="{'list-group-item active': ct.source.id == null, 'list-group-item' : ct.source.id != null}"
-		ng-click="ct.setSource(null)">Todos</a>
-		<a href="#" ng-repeat="source in ct.sources" 
-		ng-class="{'list-group-item active': ct.source.id == source.id, 'list-group-item' : ct.source.id != source.id}"
-		ng-click="ct.setSource(source)"
-		class="list-group-item" >{{source.title}} <span class="badge" ng-if="source.qtd > 0" ng-bind="source.qtd"></span></a>
-	</div>
-</div>
+<!-- <div class="col-md-3"> -->
+<!-- 	<div class="list-group" uib-collapse="false"> -->
+<!-- 		<a href="#" class="list-group-item disabled">Sources ({{ct.totalSource}})</a> -->
+<!-- 		<a href="" ng-class="{'list-group-item active': ct.source.id == null, 'list-group-item' : ct.source.id != null}" -->
+<!-- 		ng-click="ct.setSource(null)">Todos</a> -->
+<!-- 		<a href="" ng-repeat="source in ct.sources"  -->
+<!-- 		ng-class="{'list-group-item active': ct.source.id == source.id, 'list-group-item' : ct.source.id != source.id}" -->
+		
+<!-- 		class="list-group-item" >{{source.title}} <span class="badge" ng-if="source.qtd > 0" ng-bind="source.qtd"></span></a> -->
+<!-- 	</div> -->
+<!-- </div> -->
 </div>

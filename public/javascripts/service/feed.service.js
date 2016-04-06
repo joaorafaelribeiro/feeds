@@ -9,9 +9,9 @@ angular.module('app').service('Feed',['$http',function($http) {
 		return $http.get('/image/'+idFeed);
 	};
 	
-	me.getFeeds = function(page,search,rssId) {
+	me.getFeeds = function(page,search,rssId,favorite) {
 		if(!page) page = 1;
-		return $http.get('/feeds',{params:{page:page,search:search,rssId:rssId}});
+		return $http.get('/feeds',{params:{page:page,search:search,rssId:rssId,favorite:favorite}});
 	};
 	
 	me.getSources = function(page) {
@@ -38,13 +38,14 @@ angular.module('app').service('Feed',['$http',function($http) {
 		return $http.get('/sources?count=true');
 	};
 	
-	me.getTotalFeeds = function(search,rssId) {
-		return $http.get('/feeds',{params:{search:search,rssId:rssId,count:true}});
+	me.getTotalFeeds = function(search,rssId,favorite) {
+		return $http.get('/feeds',{params:{search:search,rssId:rssId,count:true,favorite:favorite}});
 	};
 	
 	me.setFavorite = function(idFeed){
 		return $http.post('/favorite/'+idFeed);
 	}
+	
 	
 	me.getFeed = function(idFeed) {
 		return $http.get('/feed/'+idFeed);

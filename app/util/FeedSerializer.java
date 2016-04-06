@@ -26,15 +26,16 @@ public class FeedSerializer implements JsonSerializer<Feed>{
 			json.add("img", new JsonPrimitive(feed.getImg()));
 		else
 			json.add("img", null);
-		if(feed.getDescription() != null)
-			json.add("description", new JsonPrimitive(feed.getDescription()));
-		else
-			json.add("description", null);
+//		if(feed.getDescription() != null)
+//			json.add("description", new JsonPrimitive(feed.getDescription()));
+//		else
+//			json.add("description", null);
 		json.add("date", new JsonPrimitive(new SimpleDateFormat("dd/MM/yyyy").format(feed.getDate())));
 		JsonObject json2 = new JsonObject();
 		json2.add("id", new JsonPrimitive(feed.getRss().id));
 		json2.add("title", new JsonPrimitive(feed.getRss().getTitle()));
 		json2.add("link", new JsonPrimitive(feed.getRss().getLink()));
+		json2.add("icon", new JsonPrimitive(feed.getRss().getIcon()));
 		json.add("rss", json2);
 		return json;
 	}
