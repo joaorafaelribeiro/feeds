@@ -18,10 +18,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.google.gson.annotations.JsonAdapter;
 
 import play.db.jpa.Model;
+import util.RssJson;
 
 @Entity(name="rsses")
+@JsonAdapter(RssJson.class)
 public class Rss extends Model {
 
 	private String title;

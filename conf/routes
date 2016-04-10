@@ -14,12 +14,12 @@ GET		/category/edit/{id}						Categories.edit
 GET		/category/delete/{id}					Categories.delete
 POST	/category								Categories.save
 
-GET		/favorites								Favorites.index
-GET		/favorites/list							Favorites.list
-POST	/favorite/{id}							Favorites.setFavorite
-
 GET		/news									Feeds.index(format:'html')
+#GET		/today									Feeds.today
+#GET		/all									Feeds.all
+#GET		/favorites								Feeds.favorites
 GET     /feeds                                  Feeds.list
+GET		/count									Feeds.count
 GET     /feed/{id}                              Feeds.show
 
 GET     /sources/index.html                     Rsses.index

@@ -1,8 +1,10 @@
-<div class="panel panel-default" style="height: 280px">
+<div class="panel panel-default" style="height: 280px" ng-mouseover="feed.showActionsButton = true" ng-mouseleave="feed.showActionsButton = false">
 	<div class="panel-heading" style="height: 15%; background-color: #C8C8C8">
 		<img src="{{feed.rss.icon}}" class="img-rounded" width="20" height="20" />
 		<small class="text-muted text-center"> {{feed.rss.title | limitTo:19}} - {{feed.date}}</small>
-		<button class="btn btn-xs btn-default pull-right"><span class="glyphicon glyphicon-triangle-bottom"></span></button>
+		<button ng-class="{'btn btn-xs btn-default pull-right hidden': !feed.showActionsButton, 'btn btn-xs btn-default pull-right' : feed.showActionsButton}">
+			<span class="glyphicon glyphicon-option-horizontal"></span>
+		</button>
 	</div>
 	<div class="panel-body" style="background-color: #EFEFEF; height: 85%">
 		<a href="" tabindex="{{feed.index}}" class="thumbnail"

@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -8,51 +9,44 @@ angular.module('app').controller('feedController',['Feed','$uibModal','$scope','
 	me.page = 1;
 	me.feeds = [];
 	me.sources = [];
-	me.feed = {favorite:false};
+	me.feed = {favorite:false,open:false};
 	me.total = 0;
-	me.source = {id:null};
+	me.source = {id:null,title:'Todos'};
 	me.word = null;
 	
 	me.setFavorite = function(idFeed) {
 		me.feed.favorite = !me.feed.favorite;
 		Feed.setFavorite(idFeed);
 	}
-	
+
 	me.getFeeds = function(page) {
-		if(page < 1) return;
 		me.page = page;
-		
 		Feed.getFeeds(page,me.word,me.source.id).then(function(response) {
 			me.feeds = response.data;
-			var $i = 1;
-			angular.forEach(me.feeds,function(feed) {
-				feed.index = $i++;
-			});
-			Feed.getTotalFeeds(me.word,me.source.id).then(function(response) {
+			Feed.count(me.word,me.source.id).then(function(response) {
 				me.total = response.data;
+				me.feed = me.feeds[0];
 			});
 		});
 	};
 	
+	me.getAllFeeds = function(page) {
+		me.source = {id:-1,title:'All'};
+		me.getFeeds(page);
+	}
 	
-	me.show = function(id) {
-			Feed.getFeed(id).then(function(response) {
-				
-				var modalInstance = $uibModal.open({
-				      animation: true,
-				      templateUrl: 'myModalContent.html',
-				      bindToController:true,
-				      controller: 'FeedModalController',
-				      controllerAs: 'modal',
-				      resolve: {feed: response.data}
-				    });
-			});
-			
-	};
+	me.getTodayFeeds = function(page) {
+		me.source = {id:-2,title:'Today'};
+		me.getFeeds(page);
+	}
 	
+	me.getFavorites = function(page) {
+		me.source = {id:-3,title:'Favorites'};
+		me.getFeeds(page);
+	}
 	
 	me.setSource = function(source) {
-		me.word = null;
+		me.source = source;
 		me.getFeeds(1);
 	}
 	
@@ -60,10 +54,22 @@ angular.module('app').controller('feedController',['Feed','$uibModal','$scope','
 	me.getSources = function() {
 		Feed.getSources().then(function(response) {
 			me.sources = response.data;
-			me.sources.unshift({id:null,title:'Todos'})
 		});
 	}
 	
+	me.next = function() {
+    	if(me.page < me.total/15) {
+    		me.page = me.page + 1;
+    	}
+    	me.getFeeds(me.page);
+    }
+	
+	me.preview = function() {
+    	if(me.page > 1) {
+    		me.page = me.page - 1;
+    	}
+    	me.getFeeds(me.page);
+    }
 	
 	me.init = function(){
 		me.getFeeds(1);
@@ -73,23 +79,51 @@ angular.module('app').controller('feedController',['Feed','$uibModal','$scope','
 	hotkeys.add({
 	    combo: 'left',
 	    description: 'Go to page preview',
-	    callback: function() {
-	    	if(me.page > 1) {
-	    		me.page = me.page - 1;
-	    	}
-	    	me.getFeeds(me.page);
-	    }
+	    callback: me.preview
 	  });
 	
 	hotkeys.add({
 	    combo: 'right',
 	    description: 'Go to page next',
+	    callback: me.next
+	  });
+	
+	hotkeys.add({
+	    combo: 'down',
+	    description: 'Go to new next',
 	    callback: function() {
-	    	if(me.page < me.total/9) {
-	    		me.page = me.page + 1;
-	    	}
-	    	me.getFeeds(me.page);
+	    	var index = me.feeds.indexOf(me.feed);
+	    	if(index+1 >= me.feeds.length) {
+	    		me.feed = me.feeds[0];
+	    	} else
+	    	me.feed = me.feeds[index+1];
 	    }
+	  });
+	
+	hotkeys.add({
+	    combo: 'space',
+	    description: 'Open/Close details',
+	    callback: function() {
+	    	if(!me.feed.open) {
+	    		me.feed.open = true;
+	    		return;
+	    	}
+	    	me.feed.open = !me.feed.open;
+	    }
+	  });
+	
+	hotkeys.add({
+	    combo: 'up',
+	    description: 'Go to new preview',
+	    callback: function() {
+	    	var index = me.feeds.indexOf(me.feed);
+	    	if(index-1 >= 0) {
+	    		index = index-1;
+	    		me.feed = me.feeds[index];
+	    	}else
+	    		me.feed = me.feeds[me.feeds.length-1];
+	    }
+	    
 	  });
 	
 }]);

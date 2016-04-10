@@ -12,7 +12,6 @@ public class FeedFilter {
 	private int page;
 	private Object[] soundex;
 	private Long rssId;
-	private Boolean favorite = null;
 
 	public FeedFilter(Params params) {
 		page = 1;
@@ -22,8 +21,6 @@ public class FeedFilter {
 			soundex = SoundexUtil.soundexWords(params.get("search"));
 		if(params.get("rssId") != null)
 			this.rssId = (Long.parseLong(params.get("rssId")));
-		if(params.get("favorite") != null)
-			this.favorite = (Boolean.parseBoolean(params.get("favorite")));
 	}
 
 	public int getPage() {
@@ -33,13 +30,19 @@ public class FeedFilter {
 	public String getQuery() {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" 1=1 ");
-		if(rssId != null)
-			sql.append(" and rss.id ="+rssId+" ");
+		if(rssId != null) {
+			if(rssId > 0)
+				sql.append(" and rss.id ="+rssId+" ");
+			if(rssId == -2)
+				sql.append(" and date(date) = current_date() ");
+			if(rssId == -3)
+				sql.append(" and favorite = true ");
+		}
+			
 		if(soundex != null)
 			for(Object sound : soundex)
 				sql.append(" and soundex like '%"+sound+"%' ");
-		if(favorite != null)
-			sql.append(" and favorite = "+favorite);
+		sql.append(" order by date desc ");
 		return sql.toString();
 	}
 }

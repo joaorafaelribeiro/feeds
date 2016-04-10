@@ -9,11 +9,6 @@ angular.module('app').service('Feed',['$http',function($http) {
 		return $http.get('/image/'+idFeed);
 	};
 	
-	me.getFeeds = function(page,search,rssId,favorite) {
-		if(!page) page = 1;
-		return $http.get('/feeds',{params:{page:page,search:search,rssId:rssId,favorite:favorite}});
-	};
-	
 	me.getSources = function(page) {
 		if(page) 
 			return $http.get('/sources?page='+page);
@@ -38,17 +33,28 @@ angular.module('app').service('Feed',['$http',function($http) {
 		return $http.get('/sources?count=true');
 	};
 	
-	me.getTotalFeeds = function(search,rssId,favorite) {
-		return $http.get('/feeds',{params:{search:search,rssId:rssId,count:true,favorite:favorite}});
+	me.count = function(search,rssId) {
+		return $http.get('/count',{params:{search:search,rssId:rssId}});
 	};
-	
-	me.setFavorite = function(idFeed){
-		return $http.post('/favorite/'+idFeed);
-	}
-	
-	
+
 	me.getFeed = function(idFeed) {
 		return $http.get('/feed/'+idFeed);
 	}
+
+	me.getFeeds = function(page,search,rssId) {
+		return $http.get('/feeds',{params:{page:page,search:search,rssId:rssId}});
+	};
+	
+//	me.getTodayFeeds = function(page,search) {
+//		return $http.get('/today',{params:{page:page,search:search}});
+//	}
+//	
+//	me.getAllFeeds = function(page,search) {
+//		return $http.get('/all',{params:{page:page,search:search}});
+//	}
+//	
+//	me.getFavorites = function(page,search){
+//		return $http.get('/favorites',{params:{page:page,search:search}});
+//	}	
 	
 }]);
