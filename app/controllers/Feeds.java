@@ -12,7 +12,7 @@ import util.exceptions.CrawlerException;
 
 public class Feeds extends Controller {
 	
-	private static int QTD_PER_PAGE = 15;
+	private static int QTD_PER_PAGE = 16;
 	
 	public static void index() {
 		render();

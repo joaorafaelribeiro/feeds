@@ -1,6 +1,6 @@
 #{extends 'main.html' /}
 <div ng-controller="SourcesController as ct" ng-init="ct.init()">
-	#{set title:'Fonte'/}
+	#{set title:'Sites & Portais'/}
 	#{secure.check 'ADMINISTRADOR'}
 	<form class="form-inline" method="post" action="/rsses"
 		style="margin-bottom: 20px">
@@ -25,7 +25,7 @@
 						<a href="{{rss.site}}" target="_blank" ng-bind="rss.title"></a>
 					</td>
 					<td ng-bind="rss.category.name"></td>
-					<td ng-bind="rss.date"></td>
+					<td><small>{{rss.date|date:'dd/MM/yyyy (hh:mm)'}}</small></td>
 					<td><a href="/rss/{{rss.id}}"><span
 							class="glyphicon glyphicon-edit"></span></a></td>
 					<td><a href="/delete/{{rss.id}}" class="text-danger"

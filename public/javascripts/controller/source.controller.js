@@ -12,7 +12,7 @@ angular.module('app').controller('SourcesController',['Feed','$uibModal',functio
 	me.getSources = function(page) {
 		if(page < 1) return;
 		me.page = page;
-		Feed.getRsses().then(function(response) {
+		Feed.getSources(page).then(function(response) {
 			me.sources = response.data;
 		});
 	};

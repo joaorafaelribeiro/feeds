@@ -1,111 +1,88 @@
 #{extends 'main.html' /}
-<div ng-controller="feedController as ct" ng-init="ct.getAllFeeds(1); ct.getSources();">
-
-<div class="col-md-3">
-	<div class="row">
+<div ng-controller="feedController as ct" ng-init="ct.getAllFeeds(1); ct.getSources();" class="row">
+<div id="slide-out" class="side-nav fixed">
+	<h4>Feeds</h4>	
 	#{if session.username}
 	<form ng-submit="ct.getFeeds(1)">
 		<input type="hidden" value="${search}" id="word">
-		<div class="input-group">
-		<input type="text" name="search" placeholder="Search" class="form-control" ng-model="ct.word" maxlength="255">
-		<span class="input-group-btn">
-		<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-		</span>
+		<div class="input-field">
+			<label>Search</label>
+			<input type="text" name="search" ng-model="ct.word" maxlength="255">
 		</div>
 	</form>
 	#{/if}
-	</div>
-	<div class="row">
-	<div class="list-group menu">
-		<a href="" ng-class="{'list-group-item':ct.source.id!=-1,'list-group-item active':ct.source.id==-1}" ng-click="ct.getAllFeeds(1)">
-			<i class="glyphicon glyphicon-globe" style="margin-right: 15px"></i>
-			Todos <span class="badge" ng-if="ct.source.id == -1">{{ct.total}}</span> 
+		<div class="collection">
+		<a href="" ng-class="{'collection-item truncate':ct.source.id!=-1,'collection-item active truncate':ct.source.id==-1}" ng-click="ct.getAllFeeds(1)">
+			 Todos<span class="badge" ng-if="ct.source.id == -1">{{ct.total}}</span> 
 		</a>
-		<a href="" ng-class="{'list-group-item':ct.source.id!=-2,'list-group-item active':ct.source.id==-2}" ng-click="ct.getTodayFeeds(1)">
-			<i class="glyphicon glyphicon-calendar" style="margin-right: 15px"></i>
+		<a href="" ng-class="{'collection-item truncate':ct.source.id!=-2,'collection-item active truncate':ct.source.id==-2}" ng-click="ct.getTodayFeeds(1)">
 			Hoje <span class="badge" ng-if="ct.source.id == -2">{{ct.total}}</span>
 		</a>
-		<a href="" ng-class="{'list-group-item':ct.source.id!=-3,'list-group-item active':ct.source.id==-3}" ng-click="ct.getFavorites(1)">
-			<i class="glyphicon glyphicon-star" style="margin-right: 15px"></i>
+		<a href="" ng-class="{'collection-item truncate':ct.source.id!=-3,'collection-item active truncate':ct.source.id==-3}" ng-click="ct.getFavorites(1)">
 			Favoritos <span class="badge" ng-if="ct.source.id == -3">{{ct.total}}</span>
 		</a>
-	</div>
-	</div>
-	<div class="row" id="scroll">
-	<div class="list-group menu">
-		<a href="" ng-class="{'list-group-item':rss.id != ct.source.id,'list-group-item active': rss.id == ct.source.id}" 
-		ng-repeat="rss in ct.sources" ng-click="ct.setSource(rss)">
+		<a href="" ng-repeat="rss in ct.sources" ng-class="{'collection-item truncate':rss.id != ct.source.id,'collection-item active truncate': rss.id == ct.source.id}" 
+		 ng-click="ct.setSource(rss)">
     		<img src="{{rss.icon}}" width="20" height="20" class="img-rounded" style="margin-right: 7px"/> {{rss.title}}
     		<span class="badge" ng-if="rss.id == ct.source.id">{{ct.total}}</span>
   		</a>
-	</div>
-	</div>
+  		<a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+  		</div>
 </div>
-
-<div class="col-md-9 col-sm-12">
-	<div class="page-header titulo">
+<div class="page-header titulo">
 		<h3 ng-bind="ct.source.title">Todos</h3>
+		
+	</div>
+
+<div class="row">
 		<uib-pagination 
-			total-items="ct.total" ng-model="ct.page" max-size="4" ng-change="ct.getFeeds(ct.page)" items-per-page="15" 
+			total-items="ct.total" ng-model="ct.page" max-size="4" ng-change="ct.getFeeds(ct.page)" items-per-page="16" 
 			force-ellipses="true" boundary-links="false" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" 
 			last-text="&raquo;">
 		</uib-pagination>
-	</div>
-		
-	<div class="table-responsive">
-	<table class="table table-striped table-hover table-condensed" >
-		<tr ng-repeat="feed in ct.feeds" ng-class="{'info': feed.id == ct.feed.id, '': feed.id != ct.feed.id}" ng-click="ct.feed = feed">
-			<td><i ng-class="{'glyphicon glyphicon-triangle-right':!feed.open,'glyphicon glyphicon-triangle-bottom':feed.open}" ng-click="ct.feed = feed; feed.open = !feed.open;" style="cursor: pointer;"></i></td>
-			<td>
-				<div ng-class="{'strong':feed.open}">{{feed.title}} - <small class="text-muted">{{feed.rss.title}}</small> </div>
-				<div uib-collapse="!feed.open" style="margin: 15px;">
-					<a href="{{feed.link}}" target="_blank">
-					<img ng-src="{{feed.img}}" class="img-thumbnail pull-left" width="300" style="margin-right: 20px"/>
-					</a>
-					<p ng-bind-html="feed.description"></p>
+
+		<div class="col s12 m4 l3" ng-repeat="feed in ct.feeds">
+			<div class="card hoverable" style="height: 265px; overflow: hidden;">
+				<div class="card-image waves-effect waves-block waves-light">
+					<img ng-src="{{feed.img}}" style="max-height: 150px"/>
 				</div>
-			</td>
-			<td class="text-muted"><small>{{feed.date | date:'dd/MM/yyyy'}}</small></td>
-			<td><i ng-class="{'glyphicon glyphicon-star-empty':!ct.feed.favorite,'glyphicon glyphicon-star':ct.feed.favorite}" style="cursor: pointer;"></i></td>
-			<td><i class="glyphicon glyphicon-share-alt" style="cursor: pointer;"></i></td>
-		</tr>
-		<tr ng-if="ct.feeds.length == 0">
-			<td colspan="5">Nenuma notícia disponível</td>
-		</tr>
-	</table>
-	</div>
+				<div class="card-content">
+<!-- 					<span class="activator grey-text text-darken-4"> -->
+<!-- 					</span> -->
+					<p>
+						{{feed.title | limitTo:100}}
+						<br>
+						<small>Fonte: {{feed.rss.title}}</small>						
+					</p>
+				</div>
+				<div class="card-reveal">
+					<span class="card-title grey-text text-darken-4">Card Title<i
+						class="material-icons right">close</i></span>
+					<p>Here is some more information about this product that is
+						only revealed once clicked on.</p>
+				</div>
+			</div>
+		</div>
+		<!-- 		<table class="table table-striped table-hover table-condensed" > -->
+<!-- 		<tr  ng-class="{'info': feed.id == ct.feed.id, '': feed.id != ct.feed.id}" ng-click="ct.feed = feed"> -->
+<!-- 			<td><i ng-class="{'glyphicon glyphicon-triangle-right':!feed.open,'glyphicon glyphicon-triangle-bottom':feed.open}" ng-click="ct.feed = feed; feed.open = !feed.open;" style="cursor: pointer;"></i></td> -->
+<!-- 			<td> -->
+<!-- 				<div ng-class="{'strong':feed.open}"> - <small class="text-muted">{{feed.rss.title}}</small> </div> -->
+<!-- 				<div uib-collapse="!feed.open" style="margin: 15px;"> -->
+<!-- 					<a href="{{feed.link}}" target="_blank"> -->
+					
+<!-- 					</a> -->
+<!-- 					<p ng-bind-html="feed.description"></p> -->
+<!-- 				</div> -->
+<!-- 			</td> -->
+<!-- 			<td class="text-muted"><small>{{feed.date | date:'dd/MM/yyyy'}}</small></td> -->
+<!-- 			<td><i ng-class="{'glyphicon glyphicon-star-empty':!ct.feed.favorite,'glyphicon glyphicon-star':ct.feed.favorite}" style="cursor: pointer;"></i></td> -->
+<!-- 			<td><i class="glyphicon glyphicon-share-alt" style="cursor: pointer;"></i></td> -->
+<!-- 		</tr> -->
+<!-- 		<tr ng-if="ct.feeds.length == 0"> -->
+<!-- 			<td colspan="5">Nenuma notícia disponível</td> -->
+<!-- 		</tr> -->
+<!-- 	</table> -->
 	
-<!-- 		<div class="panel panel-default card" style="height: 150px; overflow: auto; overflow-x: hidden;"> -->
-<!-- 		<div class="panel-body" style="padding: 3px"> -->
-<!-- 		<div class="col-md-4"> -->
-<!-- 			<a href="{{ct.feed.link}}" target="_blank"> -->
-<!-- 			<img ng-src="{{ct.feed.img}}" class="img-responsive img-thumbnail"/> -->
-<!-- 			</a> -->
-<!-- 		</div> -->
-<!-- 		<div class="col-md-8"> -->
-<!-- 			<h4>{{ct.feed.title}}</h4> -->
-<!-- 			<small class="text-muted"> -->
-<!-- 				{{ct.feed.rss.title}} - {{ct.feed.date}} -->
-<!-- 			</small> -->
-<!-- 			 -->
-<!-- 			
-<!-- 			<p ng-bind-html="feed.description"></p> -->
-<!-- 		</div> -->
-<!-- 		</div> -->
-<!-- 		</div> -->
-		
-		
-		
+	</div>
 </div>
-</div>
-<!-- <div class="col-md-3"> -->
-<!-- 	<div class="list-group" uib-collapse="false"> -->
-<!-- 		<a href="#" class="list-group-item disabled">Sources ({{ct.totalSource}})</a> -->
-<!-- 		<a href="" ng-class="{'list-group-item active': ct.source.id == null, 'list-group-item' : ct.source.id != null}" -->
-<!-- 		ng-click="ct.setSource(null)">Todos</a> -->
-<!-- 		<a href="" ng-repeat="source in ct.sources"  -->
-<!-- 		ng-class="{'list-group-item active': ct.source.id == source.id, 'list-group-item' : ct.source.id != source.id}" -->
-		
-<!-- 		class="list-group-item" >{{source.title}} <span class="badge" ng-if="source.qtd > 0" ng-bind="source.qtd"></span></a> -->
-<!-- 	</div> -->
-<!-- </div> -->

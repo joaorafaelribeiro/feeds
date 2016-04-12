@@ -27,7 +27,7 @@ public class Rsses extends Controller{
 		if("true".equals(count)) {
 			renderJSON(Rss.count());
 		}else {
-			List<Rss> rsses = Rss.find("order by title").fetch();
+			List<Rss> rsses = Rss.find("order by title").fetch(Integer.parseInt(page),10);
 			renderJSON(rsses);
 		}
 		

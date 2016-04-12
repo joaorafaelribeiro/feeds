@@ -1,4 +1,4 @@
-
+$(".button-collapse").sideNav();
 /**
  * 
  */
@@ -88,43 +88,7 @@ angular.module('app').controller('feedController',['Feed','$uibModal','$scope','
 	    callback: me.next
 	  });
 	
-	hotkeys.add({
-	    combo: 'down',
-	    description: 'Go to new next',
-	    callback: function() {
-	    	var index = me.feeds.indexOf(me.feed);
-	    	if(index+1 >= me.feeds.length) {
-	    		me.feed = me.feeds[0];
-	    	} else
-	    	me.feed = me.feeds[index+1];
-	    }
-	  });
 	
-	hotkeys.add({
-	    combo: 'space',
-	    description: 'Open/Close details',
-	    callback: function() {
-	    	if(!me.feed.open) {
-	    		me.feed.open = true;
-	    		return;
-	    	}
-	    	me.feed.open = !me.feed.open;
-	    }
-	  });
-	
-	hotkeys.add({
-	    combo: 'up',
-	    description: 'Go to new preview',
-	    callback: function() {
-	    	var index = me.feeds.indexOf(me.feed);
-	    	if(index-1 >= 0) {
-	    		index = index-1;
-	    		me.feed = me.feeds[index];
-	    	}else
-	    		me.feed = me.feeds[me.feeds.length-1];
-	    }
-	    
-	  });
 	
 }]);
 
