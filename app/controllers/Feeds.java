@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import models.Feed;
+import models.Rss;
 import play.mvc.Controller;
 import util.Crawler;
 import util.FeedFilter;
@@ -15,7 +16,8 @@ public class Feeds extends Controller {
 	private static int QTD_PER_PAGE = 16;
 	
 	public static void index() {
-		render();
+		List<Rss> rsses = Rss.find("order by title").fetch();
+		render(rsses);
 	}
 	
 	public static void show(Long id) {

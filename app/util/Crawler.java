@@ -10,6 +10,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import play.Play;
+import play.libs.WS;
 import util.exceptions.CrawlerException;
 
 import org.jsoup.nodes.Attribute;
@@ -22,8 +23,8 @@ public class Crawler {
 	public Crawler(String url) throws CrawlerException {
 		try {
 			System.setProperty("http.agent", Play.configuration.getProperty("application.user.agent"));
-			document = Jsoup.connect(url).get();
-		} catch (IOException e) {
+			document = Jsoup.parse(WS.url(url).get().getString());
+		} catch (Exception e) {
 			Logger.getGlobal().warning("Falha crawler url :"+url+" "+e.getMessage());
 			throw new CrawlerException(e);
 		}

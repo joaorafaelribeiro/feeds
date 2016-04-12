@@ -17,6 +17,8 @@ import models.Feed;
 import models.Rss;
 import play.Logger;
 import play.Play;
+import play.libs.WS;
+import play.libs.WS.HttpResponse;
 import util.exceptions.CrawlerException;
 import util.exceptions.ReaderRSSException;
 
@@ -27,7 +29,8 @@ public class ReaderRSS {
 		 SyndFeedInput input = new SyndFeedInput();
 		 System.setProperty("http.agent", Play.configuration.getProperty("application.user.agent"));
 		try {
-			feed = input.build(new XmlReader(new URL(url)));
+			HttpResponse response = WS.url(url).get();
+			feed = input.build(response.getXml());
 		} catch (Exception e) {
 			throw new ReaderRSSException(e);
 		} 

@@ -1,4 +1,4 @@
-$(".button-collapse").sideNav();
+
 /**
  * 
  */
@@ -54,6 +54,7 @@ angular.module('app').controller('feedController',['Feed','$uibModal','$scope','
 	me.getSources = function() {
 		Feed.getSources().then(function(response) {
 			me.sources = response.data;
+			
 		});
 	}
 	

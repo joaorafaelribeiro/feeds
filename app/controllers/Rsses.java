@@ -4,7 +4,6 @@ import java.util.List;
 
 import models.Category;
 import models.Feed;
-import models.Resume;
 import models.Rss;
 import play.mvc.Controller;
 import play.mvc.Scope.Flash;

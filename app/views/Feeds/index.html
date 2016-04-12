@@ -1,46 +1,64 @@
 #{extends 'main.html' /}
 <div ng-controller="feedController as ct" ng-init="ct.getAllFeeds(1); ct.getSources();" class="row">
-<div id="slide-out" class="side-nav fixed">
-	<h4>Feeds</h4>	
-	#{if session.username}
-	<form ng-submit="ct.getFeeds(1)">
-		<input type="hidden" value="${search}" id="word">
-		<div class="input-field">
-			<label>Search</label>
-			<input type="text" name="search" ng-model="ct.word" maxlength="255">
-		</div>
-	</form>
-	#{/if}
-		<div class="collection">
-		<a href="" ng-class="{'collection-item truncate':ct.source.id!=-1,'collection-item active truncate':ct.source.id==-1}" ng-click="ct.getAllFeeds(1)">
-			 Todos<span class="badge" ng-if="ct.source.id == -1">{{ct.total}}</span> 
-		</a>
-		<a href="" ng-class="{'collection-item truncate':ct.source.id!=-2,'collection-item active truncate':ct.source.id==-2}" ng-click="ct.getTodayFeeds(1)">
-			Hoje <span class="badge" ng-if="ct.source.id == -2">{{ct.total}}</span>
-		</a>
-		<a href="" ng-class="{'collection-item truncate':ct.source.id!=-3,'collection-item active truncate':ct.source.id==-3}" ng-click="ct.getFavorites(1)">
-			Favoritos <span class="badge" ng-if="ct.source.id == -3">{{ct.total}}</span>
-		</a>
-		<a href="" ng-repeat="rss in ct.sources" ng-class="{'collection-item truncate':rss.id != ct.source.id,'collection-item active truncate': rss.id == ct.source.id}" 
-		 ng-click="ct.setSource(rss)">
-    		<img src="{{rss.icon}}" width="20" height="20" class="img-rounded" style="margin-right: 7px"/> {{rss.title}}
-    		<span class="badge" ng-if="rss.id == ct.source.id">{{ct.total}}</span>
-  		</a>
-  		<a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
-  		</div>
-</div>
-<div class="page-header titulo">
-		<h3 ng-bind="ct.source.title">Todos</h3>
-		
-	</div>
+<!-- <div id="slide-out" class="side-nav fixed"> -->
+<!-- 	<h4>Feeds</h4>	 -->
+<!-- 	#{if session.username} -->
+<!-- 	<form ng-submit="ct.getFeeds(1)"> -->
+<!-- 		<input type="hidden" value="${search}" id="word"> -->
+<!-- 		<div class="input-field"> -->
+<!-- 			<label>Search</label> -->
+<!-- 			<input type="text" name="search" ng-model="ct.word" maxlength="255"> -->
+<!-- 		</div> -->
+<!-- 	</form> -->
+<!-- 	#{/if} -->
+<!-- 		<div class="collection"> -->
+<!-- 		<a href="" ng-class="{'collection-item truncate':ct.source.id!=-1,'collection-item active truncate':ct.source.id==-1}" ng-click="ct.getAllFeeds(1)"> -->
+<!-- 			 Todos<span class="badge" ng-if="ct.source.id == -1">{{ct.total}}</span>  -->
+<!-- 		</a> -->
+<!-- <!-- 		<a href="" ng-class="{'collection-item truncate':ct.source.id!=-2,'collection-item active truncate':ct.source.id==-2}" ng-click="ct.getTodayFeeds(1)"> --> 
+<!-- <!-- 			Hoje <span class="badge" ng-if="ct.source.id == -2">{{ct.total}}</span> --> 
+<!-- <!-- 		</a> -->
+<!-- 		<a href="" ng-class="{'collection-item truncate':ct.source.id!=-3,'collection-item active truncate':ct.source.id==-3}" ng-click="ct.getFavorites(1)"> -->
+<!-- 			Favoritos <span class="badge" ng-if="ct.source.id == -3">{{ct.total}}</span> -->
+<!-- 		</a> -->
+<!-- 		<a href="" ng-repeat="rss in ct.sources" ng-class="{'collection-item truncate':rss.id != ct.source.id,'collection-item active truncate': rss.id == ct.source.id}"  -->
+<!-- 		 ng-click="ct.setSource(rss)"> -->
+<!--     		<img src="{{rss.icon}}" width="20" height="20" class="img-rounded" style="margin-right: 7px"/> {{rss.title}} -->
+<!--     		<span class="badge" ng-if="rss.id == ct.source.id">{{ct.total}}</span> -->
+<!--   		</a> -->
+<!--   		<a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a> -->
+<!--   		</div> -->
+<!-- </div> -->
 
-<div class="row">
+    <div class="row">
+	<form class="col s12">
+		<div class="input-field col s12 m4">
+			<select name="filtro" tabindex="1" id="filtro" ng-model="ct.source.id" ng-change="ct.getFeeds(1)" class="browser-default">
+			    <optgroup label="Atalhos">
+					<option value="-1" data-icon="/public/images/rss.png" class="circle" selected="selected">Todos</option>
+					<option value="-1" data-icon="/public/images/rss.png" class="circle">Hoje</option>
+					<option value="-1" data-icon="/public/images/rss.png" class="circle">Favoritos</option>
+				</optgroup>
+				<optgroup label="Sites & Portais">
+				#{list items:rsses, as: 'rss'}
+				<option value="${rss.id}" data-icon="${rss.icon}" class="circle">${rss.title}</option>
+				#{/list}
+				</optgroup>
+			</select>
+		</div>
+		<div class="input-field col s12 m4">
+        </div>
+		<div class="input-field col s12 m4">
+          <input type="text" name="search" ng-model="ct.word" maxlength="255" placeholder="Search"/>
+        </div>
+	</form>
+    </div>
+	<div class="row">
 		<uib-pagination 
 			total-items="ct.total" ng-model="ct.page" max-size="4" ng-change="ct.getFeeds(ct.page)" items-per-page="16" 
 			force-ellipses="true" boundary-links="false" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" 
 			last-text="&raquo;">
 		</uib-pagination>
-
 		<div class="col s12 m4 l3" ng-repeat="feed in ct.feeds">
 			<div class="card hoverable" style="height: 265px; overflow: hidden;">
 				<div class="card-image waves-effect waves-block waves-light">
