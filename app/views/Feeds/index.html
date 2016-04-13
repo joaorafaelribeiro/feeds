@@ -1,4 +1,17 @@
 #{extends 'main.html' /}
+
+<ul class="side-nav fixed ">
+	<li><a href=""
+		class="waves-effect waves-grey"><i class="material-icons left">alarm_on</i>Todos</a></li>
+	<li><a href=""
+		class="waves-effect waves-grey">Hoje</a></li>
+	<li><a href=""
+		class="waves-effect waves-grey">Favoritos</a></li>
+	#{list items:rsses, as: 'rss'}
+	<li><a href=""
+		class="waves-effect waves-grey">${rss.title}</a></li>
+	#{/list}
+</ul>
 <div ng-controller="feedController as ct" ng-init="ct.getAllFeeds(1); ct.getSources();" class="row">
 <!-- <div id="slide-out" class="side-nav fixed"> -->
 <!-- 	<h4>Feeds</h4>	 -->
@@ -32,52 +45,40 @@
 
     <div class="row">
 	<form class="col s12">
-		<div class="input-field col s12 m4">
-			<select name="filtro" tabindex="1" id="filtro" ng-model="ct.source.id" ng-change="ct.getFeeds(1)" class="browser-default">
-			    <optgroup label="Atalhos">
-					<option value="-1" data-icon="/public/images/rss.png" class="circle" selected="selected">Todos</option>
-					<option value="-1" data-icon="/public/images/rss.png" class="circle">Hoje</option>
-					<option value="-1" data-icon="/public/images/rss.png" class="circle">Favoritos</option>
-				</optgroup>
-				<optgroup label="Sites & Portais">
-				#{list items:rsses, as: 'rss'}
-				<option value="${rss.id}" data-icon="${rss.icon}" class="circle">${rss.title}</option>
-				#{/list}
-				</optgroup>
-			</select>
-		</div>
-		<div class="input-field col s12 m4">
-        </div>
-		<div class="input-field col s12 m4">
-          <input type="text" name="search" ng-model="ct.word" maxlength="255" placeholder="Search"/>
-        </div>
+						
+			<div class="input-field col s6 m4 l4">
+				<i class="material-icons prefix">search</i>
+				<input id="search" type="search" required placeholder="search"> 
+			</div>
 	</form>
     </div>
 	<div class="row">
-		<uib-pagination 
+<uib-pagination 
 			total-items="ct.total" ng-model="ct.page" max-size="4" ng-change="ct.getFeeds(ct.page)" items-per-page="16" 
 			force-ellipses="true" boundary-links="false" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" 
 			last-text="&raquo;">
-		</uib-pagination>
-		<div class="col s12 m4 l3" ng-repeat="feed in ct.feeds">
-			<div class="card hoverable" style="height: 265px; overflow: hidden;">
-				<div class="card-image waves-effect waves-block waves-light">
-					<img ng-src="{{feed.img}}" style="max-height: 150px"/>
+		</uib-pagination>			
+	</div>
+
+	<div class="row">
+		<div class="col s6 m4 l3" ng-repeat="feed in ct.feeds">
+			<div class="card hoverable feed">
+				<div class="card-image waves-effect waves-block waves-light activator	">
+					<img ng-src="{{feed.img}}" style="max-height: 150px" class="responsive-img"/>
 				</div>
 				<div class="card-content">
-<!-- 					<span class="activator grey-text text-darken-4"> -->
-<!-- 					</span> -->
-					<p>
+					<span class="activator grey-text text-darken-4">
 						{{feed.title | limitTo:100}}
-						<br>
+					</span>
+					<p>
 						<small>Fonte: {{feed.rss.title}}</small>						
 					</p>
 				</div>
 				<div class="card-reveal">
-					<span class="card-title grey-text text-darken-4">Card Title<i
+					<span class="card-title grey-text text-darken-4"><i
 						class="material-icons right">close</i></span>
-					<p>Here is some more information about this product that is
-						only revealed once clicked on.</p>
+					{{feed.title}}
+					<p ng-bind-html="feed.description"></p>
 				</div>
 			</div>
 		</div>

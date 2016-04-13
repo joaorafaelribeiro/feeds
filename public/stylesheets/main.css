@@ -1,3 +1,8 @@
 .collection .collection-item {
 	line-height: 5em !important;
 }
+.feed {
+	height: 265px; 
+	overflow: hidden;
+}
+
