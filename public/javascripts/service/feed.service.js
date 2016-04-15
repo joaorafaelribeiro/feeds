@@ -16,8 +16,8 @@ angular.module('app').service('Feed',['$http',function($http) {
 			return $http.get('/sources');
 	};
 	
-	me.getRsses = function() {
-		return $http.get('/rsses');
+	me.getRss = function(id) {
+		return $http.get('/rss/'+id);
 	}
 
 	me.getCategories = function(page) {

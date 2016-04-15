@@ -24,7 +24,7 @@ GET     /feed/{id}                              Feeds.show
 
 GET     /sources/index.html                     Rsses.index
 GET     /sources                                Rsses.sources
-GET		/rss/{id}								Rsses.edit
+GET		/rss/{id}								Rsses.get
 POST	/rsses									Rsses.save
 GET		/rsses									Rsses.list
 POST	/rss									Rsses.update

@@ -53,10 +53,9 @@ public class Rsses extends Controller{
 		}
 	}
 	
-	public static void edit(Long id) {
+	public static void get(Long id) {
 		Rss rss = Rss.findById(id);
-		List<Category> categories = Category.find("order by name").fetch();
-		render(rss,categories);
+		renderJSON(rss);
 	}
 	
 	public static void update(Rss rss) {

@@ -7,6 +7,6 @@ angular.module('app',['ngSanitize','ui.bootstrap','cfp.hotkeys']);
 		
 $(document).ready(function() {
 	$('select').material_select();
+	$(".button-collapse").sideNav();
   });
 
-$(".button-collapse").sideNav();

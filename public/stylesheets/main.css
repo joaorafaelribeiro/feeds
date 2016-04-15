@@ -1,8 +1,56 @@
 .collection .collection-item {
 	line-height: 5em !important;
 }
+
 .feed {
-	height: 265px; 
+	height: 285px;
 	overflow: hidden;
 }
 
+header, main, footer {
+	padding-left: 240px;
+}
+
+@media only screen and (max-width : 992px) {
+	header, main, footer {
+		padding-left: 0;
+	}
+	.feed {
+		height: 340px;
+	}
+}
+
+#nav-mobile {
+	overflow: hidden;
+}
+
+#nav-mobile:hover {
+	overflow-y: scroll !important;
+}
+
+.side-nav a {
+	height: 50px !important;
+}
+
+.side-nav a img {
+	margin-right: 8px;
+}
+
+#nav-mobile i {
+	margin-left: -3px;
+	margin-right: 11px;
+	margin-top: 17px;
+}
+
+.search {
+	padding: 8px;
+}
+
+.search .input-field {
+	margin-top: 0px;
+}
+
+#search {
+	margin-left: 23px;
+	width: 158px;
+}
