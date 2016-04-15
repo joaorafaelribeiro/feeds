@@ -14,6 +14,12 @@ angular.module('app').controller('feedController',['Feed','$uibModal','$scope','
 	me.source = {id:null,title:'Todos'};
 	me.word = null;
 	
+	me.setFeed = function(feed) {
+		me.feed = feed;
+		$('#modal1').openModal();
+		          
+	}
+	
 	me.setFavorite = function(idFeed) {
 		me.feed.favorite = !me.feed.favorite;
 		Feed.setFavorite(idFeed);
@@ -92,19 +98,3 @@ angular.module('app').controller('feedController',['Feed','$uibModal','$scope','
 	
 	
 }]);
-
-
-angular.module('app').controller('FeedModalController', ['$scope','$uibModalInstance','feed','Feed',function ($scope, $uibModalInstance, feed,Feed) {
-		modal = this;  
-		$scope.feed = feed;
-		
-		modal.close = function() {
-			$uibModalInstance.close();
-		};
-		
-		modal.setFavorite = function() {
-			$scope.feed.favorite = true;
-			Feed.setFavorite($scope.feed.id);
-		};
-		
-	}]);

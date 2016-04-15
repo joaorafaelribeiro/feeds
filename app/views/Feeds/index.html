@@ -8,7 +8,7 @@
 		<div class="col s12 m6 l4" ng-repeat="feed in ct.feeds">
 			<div class="card hoverable feed z-depth-2">
 				<div class="card-image waves-effect waves-block waves-light activator	">
-					<img ng-src="{{feed.img}}" style="max-height: 150px" class="responsive-img"/>
+					<img ng-src="{{feed.img}}" style="max-height: 150px" class="responsive-img" ng-click="ct.setFeed(feed)"/>
 				</div>
 				<div class="card-content">
 					<span class="activator grey-text text-darken-4">
@@ -34,4 +34,15 @@
 			last-text="&raquo;">
 		</uib-pagination>			
 	</div>
+	  <div id="modal1" class="modal">
+    <div class="modal-content">
+			<h4>{{ct.feed.title}}</h4>
+			<p ng-bind-html="ct.feed.description"></p>
+	</div>
+	<div class="modal-footer">
+      <a href="{{ct.feed.link}}" target="_blank" class="modal-action modal-close waves-effect waves-green btn-flat">Continuar lendo...</a>
+    </div>
+  </div>
 </div>
+
+
