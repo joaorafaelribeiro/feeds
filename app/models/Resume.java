@@ -9,14 +9,14 @@ public class Resume extends Model{
 
 	private String title;
 	private Integer qtd;
-	private String site;
+	private String icon;
 	
 	
-	public String getSite() {
-		return site;
+	public String getIcon() {
+		return icon;
 	}
-	public void setSite(String site) {
-		this.site = site;
+	public void setIcon(String site) {
+		this.icon = site;
 	}
 	public String getTitle() {
 		return title;

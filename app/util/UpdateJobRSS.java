@@ -15,7 +15,7 @@ public class UpdateJobRSS extends Job<Rss>{
 
 	public void doJob() {
 		Logger.info("Atualizando RSS");
-		List<Rss> rsses = Rss.find("TIMESTAMPDIFF (MINUTE,date,?) > 10",new Date()).fetch();
+		List<Rss> rsses = Rss.find("TIMESTAMPDIFF (MINUTE,update,?) > 15",new Date()).fetch(5);
 		for(Rss rss : rsses) {
 			try {
 				Rss aux = new ReaderRSS(rss.getLink()).getRss();
@@ -29,10 +29,10 @@ public class UpdateJobRSS extends Job<Rss>{
 			} catch (ReaderRSSException e) {
 				Logger.error(e.getMessage());
 			}
+			rss.setUpdate(new Date());
+			rss.save();
 		}
-		int qtd = Rss.em().createQuery("update models.Rss set date = :date where TIMESTAMPDIFF (MINUTE,date,:date) > 10").setParameter("date", new Date()).executeUpdate();
-		Logger.info("? Rss updates",qtd);
-		qtd = Feed.em().createQuery("delete models.Feed where TIMESTAMPDIFF(DAY,date,:date) > 10 and favorite = false").setParameter("date", new Date()).executeUpdate();
+		int qtd = Feed.em().createQuery("delete models.Feed where TIMESTAMPDIFF(DAY,date,:date) > 10 and favorite = false").setParameter("date", new Date()).executeUpdate();
 		Logger.info("? Feeds deleted",qtd);
 	}
 }

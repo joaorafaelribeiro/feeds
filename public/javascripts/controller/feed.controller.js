@@ -5,18 +5,25 @@
 
 angular.module('app').controller('feedController',['Feed','$uibModal','$scope','hotkeys',function(Feed,$uibModal,$scope,hotkeys) {
 	
-	me = this;
-	me.page = 1;
-	me.feeds = [];
-	me.sources = [];
-	me.feed = {favorite:false,open:false};
-	me.total = 0;
-	me.source = {id:null,title:'Todos'};
-	me.word = null;
+	me 				= this;
+	me.page 		= 1;
+	$scope.feeds	= [];
+	me.sources 		= [];
+	me.feed 		= {favorite:false,open:false};
+	me.total 		= 0;
+	me.source 		= {id:null,title:'Todos'};
+	me.word 		= null;
+	me.rssId		= null;
+	
 	
 	me.setFeed = function(feed) {
 		me.feed = feed;
-		$('#modal1').openModal();
+		$('#modal1').openModal({
+		      dismissible: true, // Modal can be dismissed by clicking outside of the modal
+		      opacity: .8, // Opacity of modal background
+		      in_duration: 300, // Transition in duration
+		      out_duration: 200, // Transition out duration
+		    });
 		          
 	}
 	
@@ -27,11 +34,11 @@ angular.module('app').controller('feedController',['Feed','$uibModal','$scope','
 
 	me.getFeeds = function(page) {
 		me.page = page;
-		Feed.getFeeds(page,me.word,me.source.id).then(function(response) {
-			me.feeds = response.data;
+		Feed.getFeeds(page,me.word,me.rssId).then(function(response) {
+			$scope.feeds = response.data;
 			Feed.count(me.word,me.source.id).then(function(response) {
 				me.total = response.data;
-				me.feed = me.feeds[0];
+				me.feed = $scope.feeds[0];
 			});
 		});
 	};
@@ -81,20 +88,16 @@ angular.module('app').controller('feedController',['Feed','$uibModal','$scope','
 	me.init = function(){
 		me.getFeeds(1);
 		me.getSources();
+		Feed.countAll().then(function(response){$scope.countAll = response.data});
+		Feed.countToday().then(function(response){$scope.countToday = response.data});
+		
 	}
 	
-	hotkeys.add({
-	    combo: 'left',
-	    description: 'Go to page preview',
-	    callback: me.preview
-	  });
-	
-	hotkeys.add({
-	    combo: 'right',
-	    description: 'Go to page next',
-	    callback: me.next
-	  });
-	
-	
+	$scope.loading = function() {
+		if($scope.feeds.length == me.total) return;
+		me.page++;
+		me.getFeeds(me.page);
+	}
 	
 }]);
+

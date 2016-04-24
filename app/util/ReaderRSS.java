@@ -6,6 +6,8 @@ import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
+import org.xml.sax.InputSource;
+
 import com.sun.syndication.feed.atom.Entry;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -30,7 +32,7 @@ public class ReaderRSS {
 		 System.setProperty("http.agent", Play.configuration.getProperty("application.user.agent"));
 		try {
 			HttpResponse response = WS.url(url).get();
-			feed = input.build(response.getXml());
+			feed = input.build(new InputSource(response.getStream()));
 		} catch (Exception e) {
 			throw new ReaderRSSException(e);
 		} 

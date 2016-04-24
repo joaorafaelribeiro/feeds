@@ -7,11 +7,14 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -21,13 +24,12 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.JsonAdapter;
 
 import play.db.jpa.Model;
-import util.RssJson;
-
 @Entity(name="rsses")
-@JsonAdapter(RssJson.class)
 public class Rss extends Model {
 
 	private String title;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="date_create")
 	private Date date;
 	private String link;
 	@OneToMany(mappedBy="rss",fetch=FetchType.LAZY,cascade={CascadeType.ALL})
@@ -37,7 +39,16 @@ public class Rss extends Model {
 	private Category category;
 	private String site;
 	private String icon;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="date_update")
+	private Date update;
 	
+	public Date getUpdate() {
+		return update;
+	}
+	public void setUpdate(Date update) {
+		this.update = update;
+	}
 	public String getIcon() {
 		return icon;
 	}
@@ -59,6 +70,7 @@ public class Rss extends Model {
 	public Rss() {
 		feeds = new ArrayList<Feed>();
 		date = new Date();
+		update = new Date();
 	}
 	public List<Feed> getFeeds() {
 		return feeds;
@@ -83,8 +95,6 @@ public class Rss extends Model {
 	}
 	public void setLink(String link) {
 		this.link = link;
-	}
-	
-	
+	}	
 	
 }

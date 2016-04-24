@@ -1,22 +1,23 @@
 #{extends 'main.html' /}
 
-<div ng-controller="feedController as ct" ng-init="ct.getAllFeeds(1); ct.getSources();" class="row">
+<div class="row">
 	<div class="page-title">
-		<h2>{{rss.title}}</h2>
+		<h2 ng-bind="rss.title"></h2>
 	</div>
 	<div class="row" style="margin-top: 25px">
-		<div class="col s12 m6 l4" ng-repeat="feed in ct.feeds">
-			<div class="card hoverable feed z-depth-2">
-				<div class="card-image waves-effect waves-block waves-light activator	">
-					<img ng-src="{{feed.img}}" style="max-height: 150px" class="responsive-img" ng-click="ct.setFeed(feed)"/>
+		<div class="col s10 m6 l3" ng-repeat="feed in feeds">
+			<div class="card hoverable feed z-depth-2 waves-effect waves-block waves-light activator" ng-click="ct.setFeed(feed)" style="cursor: pointer;">
+				<div class="card-image">
+					<img ng-src="{{feed.img}}" style="max-height: 150px" class="responsive-img"/>
 				</div>
 				<div class="card-content">
 					<span class="activator grey-text text-darken-4">
 						{{feed.title | limitTo:100}}
 					</span>
-					<p>
-						<small>Fonte: {{feed.rss.title}}</small>						
-					</p>
+				</div>
+				<div class="card-action font grey-text">
+					<small class="left truncate" style="width: 90px" ng-bind="feed.rss.title"></small>
+					<small class="right">{{feed.date | date:'dd/MM/yyyy hh:mm'}}</small>					
 				</div>
 				<div class="card-reveal">
 					<span class="card-title grey-text text-darken-4"><i
@@ -28,20 +29,29 @@
 		</div>
 	</div>
 	<div class="row">
-<uib-pagination 
-			total-items="ct.total" ng-model="ct.page" max-size="4" ng-change="ct.getFeeds(ct.page)" items-per-page="16" 
-			force-ellipses="true" boundary-links="false" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" 
-			last-text="&raquo;">
-		</uib-pagination>			
+	<a id="loading" ng-click="loading()" href=""
+	ng-show="feeds.length <= 500"
+	class="waves-effect waves-light btn right"><i class="material-icons right">cloud_download</i>Baixar mais</a>
+
 	</div>
-	  <div id="modal1" class="modal">
+	  <div id="modal1" class="modal bottom-sheet">
     <div class="modal-content">
-			<h4>{{ct.feed.title}}</h4>
-			<p ng-bind-html="ct.feed.description"></p>
+			<div class="card-panel">
+				<div class="row">
+				<div class="col s12 m12 l12">
+					<h5>{{ct.feed.title}}</h5>
+					<img src="{{ct.feed.img}}" class="responsive-img left" width="320" style="margin-right: 20px; margin-top: 10px"/>
+					<p ng-bind-html="ct.feed.description"></p>
+					<a href="{{ct.feed.link}}" target="_blank" class="right modal-action modal-close waves-effect waves-green btn-flat">Continuar lendo...</a>
+				</div>
+				</div>
+			</div>
+			
+			
 	</div>
-	<div class="modal-footer">
-      <a href="{{ct.feed.link}}" target="_blank" class="modal-action modal-close waves-effect waves-green btn-flat">Continuar lendo...</a>
-    </div>
+<!-- 	<div class="modal-footer"> -->
+      
+<!--     </div> -->
   </div>
 </div>
 

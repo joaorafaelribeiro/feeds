@@ -31,12 +31,7 @@ public class FeedFilter {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" 1=1 ");
 		if(rssId != null) {
-			if(rssId > 0)
 				sql.append(" and rss.id ="+rssId+" ");
-			if(rssId == -2)
-				sql.append(" and date(date) = current_date() ");
-			if(rssId == -3)
-				sql.append(" and favorite = true ");
 		}
 			
 		if(soundex != null)

@@ -1,3 +1,4 @@
+
 # Routes
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
@@ -20,6 +21,8 @@ GET		/news									Feeds.index(format:'html')
 #GET		/favorites								Feeds.favorites
 GET     /feeds                                  Feeds.list
 GET		/count									Feeds.count
+GET		/count/all								Feeds.countAll
+GET		/count/today							Feeds.countToday
 GET     /feed/{id}                              Feeds.show
 
 GET     /sources/index.html                     Rsses.index
@@ -39,6 +42,10 @@ POST	/user									Users.save
 POST	/comment								Comments.save
 
 GET		/profile								Profiles.index
+
+#Relatorios
+GET		/relatorio/feeds.html					relatorios.RelatorioFeeds.index
+GET		/relatorio/feeds						relatorios.RelatorioFeeds.listar
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

@@ -4,12 +4,12 @@ import java.util.List;
 
 import models.Category;
 import models.Feed;
+import models.Resume;
 import models.Rss;
 import play.mvc.Controller;
 import play.mvc.Scope.Flash;
 import play.mvc.With;
 import util.ReaderRSS;
-import util.FeedJson;
 import util.exceptions.ReaderRSSException;
 
 
@@ -26,7 +26,7 @@ public class Rsses extends Controller{
 		if("true".equals(count)) {
 			renderJSON(Rss.count());
 		}else {
-			List<Rss> rsses = Rss.find("order by title").fetch(Integer.parseInt(page),10);
+			List<Resume> rsses = Resume.find("order by title").fetch();
 			renderJSON(rsses);
 		}
 		

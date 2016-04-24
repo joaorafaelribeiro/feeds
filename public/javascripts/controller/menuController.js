@@ -7,6 +7,9 @@ angular.module('app').controller('MenuController',
 			
 			var me = this;
 			
+			me.countAll 	= 0;
+			me.countToday 	= 0;
+			
 			me.getFeeds = function(idRss) {
 				
 				Feed.getRss(idRss).then(function(response) {
@@ -16,6 +19,10 @@ angular.module('app').controller('MenuController',
 				Feed.getFeeds(idRss).then(function(response){
 					$scope.feeds = response.data;
 				}); 
+			}
+			
+			me.init = function() {
+				
 			}
 			
 		}]);

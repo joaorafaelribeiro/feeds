@@ -18,15 +18,17 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.stream.JsonWriter;
 
 import play.db.jpa.Model;
-import util.FeedJson;
 import util.SoundexUtil;
-
 @Entity(name="feeds")
-@JsonAdapter(FeedJson.class)
-public class Feed extends Model  {
+public class Feed extends Model {
 
 	@Column(nullable=false)
 	private String title;

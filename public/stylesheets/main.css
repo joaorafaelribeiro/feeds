@@ -7,40 +7,32 @@
 	overflow: hidden;
 }
 
-header, main, footer {
-	padding-left: 240px;
-}
 
-@media only screen and (max-width : 992px) {
-	header, main, footer {
-		padding-left: 0;
-	}
-	.feed {
-		height: 340px;
-	}
-}
 
 #nav-mobile {
 	overflow: hidden;
+	z-index: 10;
+}
+
+#nav-mobile li a {
+	line-height: normal;
+	height: 37px !important;
+}
+#nav-mobile a {
+	padding: 5px !important;
+	font-size: 12px;
+	font-weight: bold;
 }
 
 #nav-mobile:hover {
 	overflow-y: scroll !important;
 }
 
-.side-nav a {
-	height: 50px !important;
-}
-
 .side-nav a img {
 	margin-right: 8px;
 }
 
-#nav-mobile i {
-	margin-left: -3px;
-	margin-right: 11px;
-	margin-top: 17px;
-}
+
 
 .search {
 	padding: 8px;
@@ -53,4 +45,13 @@ header, main, footer {
 #search {
 	margin-left: 23px;
 	width: 158px;
+}
+.font {
+	    display: block;
+    height: 41px;
+    padding-left: 25px !important;
+    padding-top: 10px !important;
+    position: absolute !important;
+    top: 244px;
+    width: 100%;
 }

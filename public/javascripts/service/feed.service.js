@@ -45,13 +45,13 @@ angular.module('app').service('Feed',['$http',function($http) {
 		return $http.get('/feeds',{params:{page:page,search:search,rssId:rssId}});
 	};
 	
-//	me.getTodayFeeds = function(page,search) {
-//		return $http.get('/today',{params:{page:page,search:search}});
-//	}
-//	
-//	me.getAllFeeds = function(page,search) {
-//		return $http.get('/all',{params:{page:page,search:search}});
-//	}
+	me.countToday = function() {
+		return $http.get('/count/today');
+	}
+	
+	me.countAll= function() {
+		return $http.get('/count/all');
+	}
 //	
 //	me.getFavorites = function(page,search){
 //		return $http.get('/favorites',{params:{page:page,search:search}});

@@ -7,36 +7,34 @@
         <meta charset="${_response_encoding}">
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/materialize.min.css'}">
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/dataTables.material.min.css'}">
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/jquery-ui.min.css'}">
 <!--         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/bootstrap.min.css'}"> -->
 <!--         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/bootstrap-theme.min.css'}"> -->
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/hotkeys.min.css'}">
         <link rel="shortcut icon" href="@{'/public/images/favicon.png'}" type="image/x-icon">
+        <script src="@{'/public/javascripts/jquery-1.12.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
-    <body ng-app="app">
+    <body id="app" ng-app="app" ng-controller="feedController as ct" ng-init="ct.init()">
 	<header>
 		<div class="navbar-fixed">
-		<nav class="grey darken-4">
+		<nav class="grey darken-4" style="z-index: 99">
 			<div class="nav-wrapper">
-				<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+				<ul class="left">
+					<li><a href="" onclick="displayMenu()"><i class="material-icons">menu</i></a></li>
+				</ul>
 				<a href="/" class="brand-logo center">Feeds</a>
-				<ul class="side-nav" id="mobile-demo">
-        			<li><a href="">	Todos</a></li>
-					<li><a href="">Hoje</a></li>
-					<li><a href="">Favoritos</a></li>
-					#{list items:rsses, as: 'rss'}
-					<li><a href="" class="truncate" ng-click="menu.getFeeds(${rss.id})">${rss.title}</a></li>
-					#{/list}
-      			</ul>
+				<ul class="right">
+					<li><a href="#"><i class="material-icons">search</i></a></li>
+				</ul>
 			</div>
 		</nav>
 		</div>
 		
-		<ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down" style="transform: translateX(0%);" ng-controller="MenuController as menu">
-<!-- 			<li -->
-<!-- 				class="%{if(request.path == '/sources/index.html') out.print('active')}%"><a -->
-<!-- 				href="/sources/index.html">Sites & Portais</a></li>  -->
+		<ul id="nav-mobile" class="side-nav fixed hide" data-collapsible="expandable" style="transform: translateX(0%);" ng-init="menu.init()">
+			<li style="height: 30px"></li>
 			#{secure.check
 			'ADMINISTRADOR'}
 			<li
@@ -48,25 +46,22 @@
 			<li
 				class="%{if(request.path == '/config/index.html') out.print('active')}%"><a
 				href="/config/index.html">Configurações</li> #{/secure.check}
-				
-			<li class="search">
-				<div class="input-field">
-				<input type="text" name="search" class="z-depth-2" size="5" placeholder="Search" id="search"/>
-				<i class="material-icons prefix">search</i>
-				</div>
-			</li>
-			<li>
-				<a href="" class="waves-effect waves-grey">
-				<i class="material-icons left">language</i>Todos <span class="badge">1</span></a>
+			<li ng-class="{'':ct.rssId != null, 'active':ct.rssId==null}">
+				<a href="" class="waves-effect waves-grey" ng-click="ct.rssId = null; ct.getFeeds(1)">
+				Todos <span class="badge" ng-bind="countAll"></span></a>
 			</li>
 			<li><a href="" class="waves-effect waves-grey">
-				<i class="material-icons left">alarm_on</i>Hoje <span class="badge">1</span></a></li>
+				Hoje <span class="badge" ng-bind="countToday"></span></a></li>
 			<li><a href="" class="waves-effect waves-grey">
-				<i class="material-icons left">star</i>Favoritos <span class="badge">1</span></a></li>
-			<li class="divider"></li>
+				Favoritos <span class="badge">1</span></a></li>
 			#{list items:rsses, as: 'rss'}
-			<li><a href="" class="waves-effect waves-grey truncate" ng-click="menu.getFeeds(${rss.id})">
-				<img src="${rss.icon}" class="circle" width="20" height="20"> ${rss.title}</a></li>
+			<li ng-class="{'active':ct.rssId == ${rss.id}, '': ct.rssId != ${rss.id}}">
+				<a href="#" class="waves-effect waves-grey truncate" ng-click="ct.rssId = ${rss.id};ct.getFeeds(1)">
+					<img src="${rss.icon}" class="circle" width="20" height="20"> ${rss.title}
+					<span class="badge">${rss.qtd}</span>
+				</a>
+				
+			</li>
 			#{/list}
 		</ul>
 	</header>
@@ -93,7 +88,6 @@
 		#{doLayout /}
 	</div>
 	</main>
-	<script src="@{'/public/javascripts/jquery-1.12.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
 	<script src="@{'/public/javascripts/materialize.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
 <!-- 	<script src="@{'/public/javascripts/bootstrap.min.js'}" 	type="text/javascript" charset="${_response_encoding}"></script> -->
 	<script src="@{'/public/javascripts/angular.min.js'}"		type="text/javascript" charset="${_response_encoding}"></script>
@@ -107,6 +101,9 @@
 	<script src="@{'/public/javascripts/controller/favorite.controller.js'}"	type="text/javascript" charset="${_response_encoding}"></script>
 	<script src="@{'/public/javascripts/controller/category.controller.js'}"	type="text/javascript" charset="${_response_encoding}"></script>
 	<script src="@{'/public/javascripts/controller/source.controller.js'}"	type="text/javascript" charset="${_response_encoding}"></script>
+	<script src="@{'/public/javascripts/jquery.dataTables.js'}"	type="text/javascript" charset="${_response_encoding}"></script>
+	<script src="@{'/public/javascripts/dataTables.material.min.js'}"	type="text/javascript" charset="${_response_encoding}"></script>
+	<script src="@{'/public/javascripts/jquery-ui.min.js'}"	type="text/javascript" charset="${_response_encoding}"></script>
 	
 	</body>
 </html>
